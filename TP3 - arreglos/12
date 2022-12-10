@@ -1,0 +1,42 @@
+accion peli es
+	ambiente
+		Peli=registro
+			tit:an(20);
+			nomDir:an(20);
+			cat:an(20);
+			nroEsp:entero;
+			alqui:("Si", "No");
+		fin;
+		pelis:arreglo [1..100] de Peli;
+		peliBus:an(20);
+		procedimiento alquilar es
+			pelis[i].alqui:="Si";
+			pelis[i].nroEsp:=pelis[i].nroEsp+1;
+		fin;
+		izq,der,med:entero(3);
+	algoritmo
+		izq:=1;
+		der:=100;
+		med:=(izq+der) div 2;
+		esc("¿Que pelicula quiere alquilar?");
+		leer(peliBus);
+		mientras (pelis[med]<>peliBus) y (izq < der) hacer
+			si(peliBus < pelis[med])
+				entonces
+					der:=med-1;
+				contrario
+					izq:=med+1;
+			fin;
+		fin;
+		si(pelis[med]==peliBus)
+			entonces
+				si(pelis[med].alqui=="No");
+					entonces
+						alquilar;
+					contrario
+						esc("No esta disponible");
+				fin;
+			contrario
+				esc("No existe en stock");
+		fin;
+fin.

@@ -1,0 +1,31 @@
+accion lluvias es
+	ambiente
+		Loc=registro
+			codLoc:entero;
+			canLluvia:entero;
+		fin;
+		locs:arreglo [1..50] de Loc;
+		izq,der,med:entero(2);
+		locBus:entero;
+	algoritmo
+		izq:=1;
+		der:=50;
+		med:=(izq+der) div 2;
+		esc("Ingrese el codigo de localidad");
+		leer(locBus);
+		mientras (locBus<>locs[med]) y (izq < der) hacer
+			si (locBus < locs[med])
+				entonces
+					der:=med-1;
+				contrario
+					izq:=med+1;
+			fin;
+			med:=(izq+der) div 2;
+		fin;
+		si (locBus == locs[med])
+			entonces
+				esc("Cantidad de lluvia registrada: "; locs[med].canLluvia);
+			contrario
+				esc("No se encontro la localidad");
+		fin;
+fin.

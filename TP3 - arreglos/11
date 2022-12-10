@@ -1,0 +1,23 @@
+accion peli es
+	ambiente
+		Peli=registro
+			tit:an(20);
+			nomDir:an(20);
+			cat:an(20);
+			nroEsp:entero;
+			alqui:("Si", "No");
+		fin;
+		pelis:arreglo [1..100] de Peli;
+		catBus:an(20);
+		i:entero(1);
+	algoritmo
+		esc("Ingrese una categoria");
+		leer(catBus);
+		para i:=1 hasta 100 hacer
+			si(pelis[i].cat==catBus)
+				entonces
+					esc("Titulo: "; pelis[i].tit);
+					esc("Director: "; pelis[i].nomDir);
+			fin;
+		fin;
+fin.
