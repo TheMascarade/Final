@@ -1,0 +1,105 @@
+accion empresa es
+	ambiente
+		Cli=registro
+			idCasa:N(8);
+			fecUltLec:Fecha;
+			canLec:N(4);
+			promLec:N(8);
+			tipoCon:("A","B","C);
+		fin;
+		Medi=registro
+			idCasa:N(8);
+			fechaMedi:Fecha;
+			consumo:N(8);
+		fin;
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		cliMae,cliNu:archivo de Cli ordenado por idCasa;
+		arMedi:archivo de Medi ordenado por idCasa;
+		mae,nuevo:Cli;
+		medi:Medi;
+		fechaControl:Fecha;
+		funcion promedio_mediciones(cli:Cli):N(8) es
+			promedio_mediciones:=cli.promLec div canLec;
+		fin;
+		procedimiento actualizar_mediciones es
+			mientras (mae.idCasa==medi.idCasa) y (medi.fecUltLec<fechaControl) hacer
+				nuevo.canLec:=nuevo.canLec+1;
+				nuevo.promLec:=nuevo.promLec+medi.consumo;
+				nuevo.fecUltLec:=medi.fechaMedi;
+				leer_movimiento;
+			fin;
+			nuevo.promLec:=promedio_mediciones(nuevo);
+			nuevo.tipoCon:=tipo_consumidor(nuevo);
+			esc(arNu,nuevo);
+		fin;
+		funcion tipo_consumidor(cli:Cli) es
+			segun (cli.promLec) hacer
+				<20000: tipo_consumidor:="A";
+				<40000: tipo_consumidor:="B";
+				otros: "C";
+			fin;
+		fin;
+		procedimiento mov_sin_mae es
+			nuevo.idCasa:=medi.idCasa;
+			nuevo.promLec:=medi.consumo;
+			nuevo.canLec:=0;
+			mientras (nuevo.idCasa==medi.idCasa) y (medi.fecUltLec<fechaControl) hacer
+				nuevo.canLec:=nuevo.canLec+1;
+				nuevo.promLec:=nuevo.promLec+medi.consumo;
+				nuevo.fecUltLec:=medi.fechaMedi;
+				leer_movimiento;
+			fin;
+			nuevo.promLec:=promedio_mediciones(nuevo);
+			nuevo.tipoCon:=tipo_consumidor(nuevo);
+			esc(arNu,nuevo);
+		fin;
+		procedimiento leer_maestro es
+			leer(arMae,mae);
+			si fd(arMae)
+				entonces
+					mae.idCasa:=HV;
+			fin;
+		fin;
+		procedimiento leer_movimiento es
+			leer(arMedi,medi);
+			si fd(arMedi)
+				entonces
+					medi.idCasa:=HV;
+			fin;
+		fin;
+	algoritmo
+		abrir e/(arMae,arMedi);
+		abrir /s(arNu);
+		leer(arMae,mae);
+		leer(arMedi,medi);
+		fechaControl.dia:=31;
+		fechaControl.mes:=1;
+		fechaControl.año:=2015;
+		mientras (mae.idCasa<>HV) o (medi.idCasa<>HV) hacer
+			si (mae.idCasa<medi.idCasa)
+				entonces
+					nuevo:=mae;
+					esc(arNu,nuevo);
+					leer_maestro
+				contrario
+					si (mae.idCasa==medi.idCasa)
+						entonces
+							actualizar_mediciones;
+							si (medi.fecUltLec>=fechaControl)
+								entonces
+									repetir
+										leer_movimiento;
+									hasta (medi.idCasa<>mae.idCasa);
+							fin;
+						contrario
+							mov_sin_mae;
+							leer_movimiento;
+					fin;
+			fin;
+		fin;
+		cerrar(arMae,arNu,arMedi);
+fin.

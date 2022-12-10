@@ -1,0 +1,29 @@
+accion arreglo1(a:arreglo[1..50] de entero) es
+	ambiente
+		conMul3:entero;
+		sal:arreglo[1..50] de entero;
+		i,j:entero;
+		procedimiento inicializar es
+			para j:=1 hasta 50 hacer
+				sal[j]:=0;
+			fin;
+			j:=0;
+			conMul3:=0;
+		fin;
+		procedimiento no_mult_3 es
+			j:=j+1;
+			sal[j]:=a[i];
+			a[i]:=a[i]*3;
+		fin;
+	algoritmo
+		inicializar;
+		para i:=1 hasta 50 hacer
+			si(a[i] mod 3 <> 0)
+				entonces
+					no_mult_3;
+				contrario
+					conMul3:=conMul3+1;
+			fin;
+		fin;
+		esc("Cantidad de multiplos de 3: "; conMul3);
+fin.

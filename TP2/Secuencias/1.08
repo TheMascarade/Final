@@ -1,0 +1,64 @@
+accion ordenarCuit es
+	ambiente
+		variables
+			secR,secE: secuencia de enteros;
+			e,r:entero(1);
+			secS: secuencia de caracteres;
+			s:caracter(1);
+		contanstes
+			long = 11;
+			control = (0,1,2,3);
+		funcion a_caracer(e:entero(1))
+			segun (e)
+				1: a_caracer:="1";
+				2: a_caracer:="2";
+				3: a_caracer:="3";
+				4: a_caracer:="4";
+				5: a_caracer:="5";
+				6: a_caracer:="5";
+				7: a_caracer:="6";
+				8: a_caracer:="8";
+				9: a_caracer:="9";
+				0: a_caracer:="0";
+			fin;
+		fin;
+		funcion cumple_control(n:entero)
+			si(n==control)
+				entonces
+					cumple_control:=verdadero;
+				contrario
+					cumple_control:=falso;
+			fin;
+		fin;
+	algoritmo
+		crear(secS,secR);
+		arr(secE,secS,secR);
+		avz(secE,e);
+		mientras nfd(secE) hacer
+			para i := 1 hasta (long - 1) hacer
+				r:=e;
+				esc(secR,r);
+				si (i==10)
+					entonces
+						si (cumple_control(e))
+							entonces
+								arr(secR);
+								avz(secR,r);
+								mientras nfd(secR) hacer
+									s:=a_caracter(r);
+									esc(secS,s);
+									avz(secR,r);
+								fin;
+								avz(secE,e);
+								s:=a_caracter(e);
+								esc(secS,s);
+							contrario
+								avz(secE,e);
+						fin;
+						arr(secR);
+				fin;
+			fin;
+			avz(secE,e);
+		fin;
+		cerrar(secE,secS,secR);
+fin.

@@ -1,0 +1,19 @@
+accion contarConsonantes es
+	ambiente
+		variables
+			sec:secuencia de caracteres;
+			v:caracter;
+			contador:entero(4);
+		constantes
+			cons=("B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z");
+	proceso
+		arr(sec);
+		avz(sec,v);
+		repetir
+			si(v=cons)
+				entonces
+					contador:=contador+1;
+			fin;
+			avz(sec,v);
+		hasta(v="Z");
+fin.

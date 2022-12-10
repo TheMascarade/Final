@@ -1,0 +1,28 @@
+accion contarPalabras4 es
+	ambiente
+		secE:secuencia de caracteres;
+		e:AN(1);
+		conLetra,conPal:N(4);
+		longPal=4;
+		blanco=" ";
+	algoritmo
+		arr(secE);
+		avz(secE,e);
+		conLetra,conPal:=0;
+		mientras nfd(secE) hacer
+			mientras (e==blanco) hacer
+				avz(secE,e);
+			fin;
+			mientras (e<>blanco) hacer
+				conLetra:=conLetra+1;
+				avz(secE,e);
+			fin;
+			si(conLetra==longPal)
+				entonces
+					conPal:=conPal+1;
+			fin;
+			conLetra:=0;
+		fin;
+		esc("Cantidad de palabras de longitud "; longPal; ": "; conPal);
+		cerrar(secE);
+fin.

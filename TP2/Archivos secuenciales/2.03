@@ -1,0 +1,31 @@
+accion biblio es
+	ambiente
+		Alumno=registro
+			nroSocio:N(5);
+			nroTel:N(10);
+			apNom:AN(20);
+			carrera:("ISI","IEM","IQ","LAR");
+			dom:AN(20);
+			cantPrest:N(2);
+		fin;
+		carreraControl="ISI";
+		cantControl=4;
+		alu:Alumno;
+		arAlu:archivo de Alumno;
+		procedmiento listar_alu(alu:Alumno) es
+			esc("Nombre: "; alu.apNom);
+			esc("Número de teléfono: "; alu.nroTel);
+			esc("Cantidad prestados: "; alu.cantPrest);
+			esc("--------------------");
+		fin;
+	algoritmo
+		abrir e/(arAlu);
+		leer(arAlu,alu);
+		mientras nfd(arAlu) hacer
+			si(alu.carrera == carreraControl) y (alu.cantPrest >= cantControl)
+				entonces
+					listar_alu(alu);
+			fin;
+			leer(arAlu,alu);
+		fin;
+fin.

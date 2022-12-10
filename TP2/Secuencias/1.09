@@ -1,0 +1,27 @@
+accion contarPalabras es
+	ambiente
+		variables
+			secE:secuencia de caracteres;
+			e:AN(1);
+			contador:N(4);
+		contantes
+			letra="I";
+			blanco=" ";
+	algoritmo
+		arr(secE);
+		avz(secE,e);
+		contador:=0;
+		mientras nfd(secE) hacer
+			mientras (e==blanco) hacer
+				avz(secE,e);
+			fin;
+			si(e==letra)
+				entonces
+					contador:=contador+1;
+			fin;
+			mientras (e<>blanco) hacer
+				avz(secE,e);
+			fin;
+		fin;
+		esc("Cantidad de palabras que comienzan con "; letra; ": "; contador);
+fin.

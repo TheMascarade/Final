@@ -1,0 +1,10 @@
+accion nom(N:entero) es
+	ambiente
+		a:arreglo[1..N] de an(10);
+		i:entero(1);
+	algoritmo
+		para i:=1 hasta N hacer
+			esc("Ingrese un nombre");
+			leer(a[i]);
+		fin;
+fin.

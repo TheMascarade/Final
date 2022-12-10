@@ -1,0 +1,33 @@
+accion mezcla(a1,a2:arreglo[1..30] de entero) es
+	ambiente
+		sal:arreglo[1..60] de entero;
+		i,j,k:entero;
+		procedimiento iguales es
+			sal[k]:=a1[i];
+			i:=i+1;
+			j:=j+1;
+		fin;
+		procedimiento a1_menor es
+			sal[k]:=a1[i];
+			i:=i+1;
+		fin;
+		procedimiento a2_menor es
+			sal[k]:=a2[j];
+			j:=j+1;
+		fin;
+	algoritmo
+		i,j:=0;
+		para k:=1 hasta 60 hacer
+			si (a1[i]==a2[j])
+				entonces
+					iguales
+				contrario
+					si (a1[i]<a2[j])
+						entonces
+							a1_menor;
+						contrario
+							a2_menor;
+					fin;
+			fin;
+		fin;
+fin.

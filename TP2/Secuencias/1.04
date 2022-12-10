@@ -1,0 +1,19 @@
+accion nroSocios es
+	ambiente
+		variables
+			secE: secuencia de enteros;
+			v: entero(1);
+			long,contador: entero;
+	proceso
+		esc("Ingrese la longitud de los codigos de socio");
+		leer(long);
+		arr(secE);
+		avz(secE,v);
+		mientras nfd(secE) hacer
+			para i:=1 hasta long hacer
+				avz(secE,v);
+			fin;
+			contador := contador + 1;
+		fin;
+		esc("Existen ", contador, " socios registrados");
+fin.

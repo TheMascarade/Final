@@ -1,0 +1,58 @@
+accion pais es
+	ambiente
+		Pob=registro
+			prov:AN(20);
+			dep:AN(20);
+			ciu:AN(20);
+			bar:AN(20);
+			idCasa:N(8);
+			cantHab:N(6);
+		fin;
+		PobSal=registro
+			prov:AN(20);
+			dep:AN(20);
+			cantHab:N(6);
+		fin;
+		pobEn:Pob;
+		pobSal:PobSal;
+		arEn:archivo de Pob ordenado por prov,dep,ciu,bar,idCasa;
+		arSal:archivo de PobSal;
+		resProv,resDep:AN(20);
+		acDep:N(6);
+		procedmiento corte_departamento() es
+			pobSal.prov:=resProv;
+			pobSal.dep:=resDep;
+			pobSal.cantHab:=acDep;
+			esc(arSal,pobSal);
+			resDep:=pobEn.dep;
+			acDep:=0;
+		fin;
+		procedmiento corte_provincia() es
+			pobSal.prov:=resProv;
+			pobSal.dep:=resDep;
+			pobSal.cantHab:=acDep;
+			esc(arSal,pobSal);
+			resProv:=pobEn.prov;
+			resDep:=pobEn.dep;
+			acDep:=0;
+		fin;
+	algoritmo
+		abrir e/(arEn);
+		crear (arSal);
+		leer(arEn,pobEn);
+		acDep:=0;
+		resProv:=pobEn.prov;
+		resDep:=pobEn.dep;
+		mientras nfd(arEn) hacer
+			si(pobEn.prov<>resProv)
+				entonces
+					corte_provincia;
+				contrario
+					si(pobEn.dep<>resDep)
+						entonces
+							corte_departamento;
+					fin;
+			fin;
+			acDep:=acDep+pobEn.cantHab;
+		fin;
+fin.

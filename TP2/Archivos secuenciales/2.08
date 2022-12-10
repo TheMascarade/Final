@@ -1,0 +1,93 @@
+accion compras es
+	ambiente
+		Fecha = registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		Compra = registro
+			nroCli:N(8);
+			fechaUltCom:Fecha;
+			monto:N(5);
+		fin;
+		Cli = registro
+			nroCli:N(8);
+			apNom:AN(20);
+			dom:AN(20);
+			tel:N(10);
+			dni:N(8);
+		fin;
+		fechaControl:Fecha;
+		compra:Compra;
+		cliente:Cli;
+		arCom: archivo de Compra;
+		arCli: archivo de Cli;
+		montControl:N(5);
+		procedmiento ingresar_fecha_control(fechaControl:Fecha) es
+			esc("Ingresar datos de fecha de control");
+			esc("Dia: ");
+			leer(fechaControl.dia);
+			esc("Mes: ");
+			leer(fechaControl.mes);
+			esc("Año: ");
+			leer(fechaControl.año);
+		fin;
+		procedmiento ingresar_monto_control(montoControl:N(5)) es
+			esc("Ingresar el monto de control");
+			leer(montoControl);
+		fin;
+		funcion dia_posterior(diaC,diaE:Fecha.dia):booleano es
+			si(diaE > diaC)
+				entonces
+					dia_posterior:=verdadero;
+			fin;
+			dia_posterior:=falso;
+		fin;
+		funcion mes_posterior(fechaC,fechaE:Fecha):booleano es
+			si(fechaE.mes > fechaC.mes)
+				entonces
+					mes_posterior:=verdadero;
+				contrario
+					si(fechaE.mes == fechaC.mes)
+						entonces
+							mes_posterior:=dia_posterior(fechaC.dia,fechaE.dia);
+					fin;
+			fin;
+			mes_posterior:=falso;
+		fin;
+		funcion fecha_posterior(fechaC,fechaE:Fecha):booleano es
+			si(fechaE.año > fechaC.año)
+				entonces
+					fecha_posterior:=verdadero;
+				contrario
+					si(fechaE.año == fechaC.año)
+						entonces
+							fecha_posterior:=mes_posterior(fechaC,fechaE);
+					fin;
+			fin;
+			fecha_posterior:=falso;
+		fin;
+		procedmiento listar_cliente(cli:Cli; com:Compra) es
+			esc("Nombre: "; cli.nomAp);
+			esc("Fecha de ultima compra: "; com.fecha.dia; "/"; com.fecha.mes; "/"; fecha.com.año);
+			esc("Monto: "; com.monto);
+			esc("---------------------");
+		fin;
+	algoritmo
+		abrir e/(arCom,arCli);
+		leer(arCom,compra);
+		leer(arCli,cliente);
+		ingresar_fecha_control(fechaControl);
+		ingresar_monto_control(montControl);
+		mientras nfd(arCli) hacer
+			mientras (cliente.nroCliente < compra.nroCliente) hacer	
+				leer(arCli,cliente);
+			fin;
+			si(fecha_posterior(fechaControl,compra.fecha)) y (compra.monto > montoControl)
+				entonces
+					listar_cliente(cliente,compra);
+			fin;
+			leer(arCli,cliente);
+			leer(arCom,compra);
+		fin;
+		cerrar(arCli,arCom);
+fin.

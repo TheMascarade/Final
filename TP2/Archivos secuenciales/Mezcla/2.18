@@ -1,0 +1,60 @@
+accion super es
+	ambiente
+		Art=registro
+			codProd:N(8);
+			tipo:AN(20);
+			marca:AN(20);
+			desc:AN(30);
+			cantUn:N(8);
+		fin;
+		suc1,suc2,sal:Art;
+		arS1,arS2,arSal:archivo de Art;
+		procedimiento listar_articulo(suc:Art;cant1,cant2:N(8)) es
+			esc(suc.codProd);
+			esc(suc.tipo);
+			esc(suc.marca);
+			esc(suc.desc);
+			esc(suc.cantUn);
+			esc(cant1);
+			esc(cant2);
+			esc(cant1+cant2);
+		fin;
+		procedimiento fin_archivo(arch:archivo de Art ordenado por codProd; var:Art) es
+			si fd(arch)
+				entonces
+					var.codProd:=HV;
+			fin;
+		fin;
+	algoritmo
+		abrir e/(arS1,arS2);
+		abrir /s(arSal);
+		leer(arS1,suc1);
+		leer(arS2,suc2);
+		mientras (suc1.codProd<>HV) o (suc2.codProd<>HV) hacer
+			si(suc1.codProd==suc2.codProd)
+				entonces
+					sal:=suc1;
+					sal.cantUn:=sal.cantUn+suc2.cantUn;
+					listar_articulo(suc1,suc1.cantUn,suc2.cantUn);
+					leer(arS1,suc1);
+					fin_archivo(arS1,suc1);
+					leer(arS2,suc2);
+					fin_archivo(arS2,suc2);
+				contrario
+					si(suc1.codProd<suc2.codProd)
+						entonces
+							sal:=suc1;
+							listar_articulo(suc1,suc1.cantUn,0);
+							leer(arS1,suc1);
+							fin_archivo(arS1,suc1);
+						contrario
+							sal:=suc2;
+							listar_articulo(sal2,0,suc2.cantUn);
+							leer(arS2,suc2);
+							fin_archivo(arS2,suc2);
+					fin;
+			fin;
+			esc(arSal,sal);
+		fin;
+		cerrar(arSal,arS1,arS2);
+fin.

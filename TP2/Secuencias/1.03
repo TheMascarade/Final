@@ -1,0 +1,21 @@
+accion descartarCaracter es
+	ambiente
+		contantes
+			car = "$";
+		variables
+			secE, secS: secuencia de caracteres;
+			v,s: caracter;
+	proceso
+		crear(secS);
+		arr(secE,secS);
+		avz(secE,v);
+		mientras nfd(secE) hacer
+			si(v<>car)
+				entonces
+					s := car;
+					esc(secS,s);
+			fin;
+			avz(secE,v);
+		fin;
+		cerrar(secS);
+fin.

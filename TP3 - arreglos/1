@@ -1,0 +1,55 @@
+procedimiento almacenar_numeros es
+	ambiente
+		i:N(1);
+		a:arreglo [1..100] de N(8);
+	algoritmo
+		para i:=1 hasta 100 hacer
+			esc("Ingrese un numero");
+			leer(a[i]);
+		fin;
+fin;
+procedimiento menor_mayor(a:arreglo[1..100] de N(8)) es
+	ambiente
+		posMayor,posMenor,i:N(1);
+		mayor,menor:N(8);
+	algoritmo
+		mayor:=LV;
+		menor:=HV;
+		para i:=1 hasta 100 hacer
+			si(a[i]<menor)
+				entonces
+					menor:=a[i];
+					posMenor:=i;
+			fin;
+			si(a[i]>mayor)
+				entonces
+					mayor:=a[i];
+					posMayor:=i;
+			fin;
+		fin;
+		esc("Numero mayor: "; mayor; " encontrado en posicion: "; posMayor);
+		esc("Numero menor: "; menor; " encontrado en posicion: "; posMenor);
+fin;
+procedimiento contar_sumar_pares(a:arreglo[1..100] de N(8)) es
+	ambiente
+		conPar,sumPar:N(8);
+		i:N(1);
+	algoritmo
+		conPar,sumPar:=0;
+		para i:=1 hasta 100 hacer
+			si(es_par(a[i]))
+				entonces
+					conPar:=conPar+1;
+					sumPar:=sumPar+a[i];
+			fin;
+		fin;
+		esc("Cantidad de numeros pares: "; conPar);
+		esc("Suma acumulativa de numeros pares: "; sumPar);
+fin;
+funcion es_par(num:N(8)):Boleano es
+	si(num mod 2 == 0)
+		entonces
+			es_par:=verdadero;
+	fin;
+	es_par:=falso;
+fin;

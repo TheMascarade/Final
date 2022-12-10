@@ -1,0 +1,33 @@
+accion pelis es
+	ambiente
+		Pelis=registro
+			nroPeli:N(8);
+			tit:AN(20);
+			gen:AN(20);
+			cantCop:N(3);
+			fechaEst:registro
+				dia:1..31;
+				mes:1..12;
+				año:N(4);
+			fin;
+		fin;
+		pelis,pelisV,pelisN:Pelis;
+		nuevo,arVie,arNue:archivo de Pelis ordenado por nroPeli;
+	algoritmo
+		abrir(arVie,arNue);
+		leer(arVie,pelisV);
+		leer(arNue,pelisN);
+		crear(nuevo);
+		mientras nfd(arVie) o nfd(arNue) hacer
+			si(pelisV.nroPeli<pelisN.nroPeli)
+				entonces
+					pelis:=pelisV;
+					esc(nuevo,pelis);
+					leer(arVie,pelisV);
+				contrario
+					pelis:=pelisN;
+					esc(nuevo,pelis);
+					leer(arNue,pelisN);
+			fin;
+		fin;
+fin.

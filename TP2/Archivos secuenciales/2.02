@@ -1,0 +1,72 @@
+accion facutras es
+	ambiente
+		Fecha = registro
+			dia:1..31;
+			mes:1..12;
+			año:entero(4);
+		fin;
+		Factura = registro
+			nroFactura: entero;
+			fecha: Fecha;
+			importeTotal: real;
+		fin;
+		importeControl = 1000;
+		fechaControl:Fecha;
+		factura: Factura;
+		arFactura: archivo de Factura;
+		procedmiento ingresar_fecha() es
+			esc("Ingrese datos de la fecha de control");
+			esc("Dia:");
+			leer(factura.fecha.dia);
+			esc("Mes:")
+			leer(factura.fecha.mes);
+			esc("Año:");
+			leer(factura.fecha.año);
+		fin;
+		funcion fecha_es_posterior(fechaE,fechaC:Fecha):booleano es
+			si(fechaC.año > fechaE.año)
+				entonces
+					es_posterior := verdadero;
+				contrario
+					si(fechaC.año < fechaE.año)
+						entonces
+							es_posterior:=falso;
+						contrario
+							si(fechaC.mes > fechaE.mes)
+								entonces
+									es_posterior:=verdadero;
+								contrario
+									si(fechaC.mes < fechaE.mes)
+										entonces
+											es_posterior:=falso;
+										contrario
+											si(fechaC.dia > fechaE.dia)
+												entonces
+													es_posterior:=verdadero;
+												contrario
+													es_posterior:=falso;
+											fin;
+									fin;
+							fin;
+					fin;
+			fin;
+		fin;
+		funcion importe_menor(impC,impE:real)
+			si(impE < impC)
+				entonces
+					importe_menor:=verdadero;
+			fin;
+			importe_menor:=falso;
+	algoritmo
+		abrir e/(arFactura);
+		leer(arFactura,factura);
+		ingresar_fecha;
+		mientras nfd(arFactura) hacer
+			si(fecha_es_posterior(fechaControl,factura.fecha)) y (importe_menor(importeControl,factura.importeTotal))
+				entonces
+					esc(factura.nroFactura; " | "; factura.fecha.dia; "/"; factura.fecha.mes; "/"; factura.fecha.año; " | "; factura.importeTotal);
+			fin;
+			leer(arFactura,factura);
+		fin;
+		cerrar(arFactura);
+fin.

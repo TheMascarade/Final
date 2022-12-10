@@ -1,0 +1,14 @@
+accion buscar_nombre(a:arreglo[1..N] de arreglo[1..10] de an(1); N:entero) es
+	ambiente
+		i:entero(1);
+		letra:an(10);
+	algoritmo
+		esc("Ingrese la letra");
+		leer(letra);
+		para i:=1 hasta N hacer
+			si(a[i,j] == letra)
+				entonces
+					esc("Nombre encontrado en la posicion "; i);
+			fin;
+		fin;
+fin.

@@ -1,0 +1,46 @@
+accion facultad es
+	ambiente
+		Asp=registro
+			dni:N(8);
+			apNom:an(20);
+			car:("ISI","IEM","IQ");
+			fNac:Fecha;
+			mail:AN(20);
+			cole:AN(20);
+			fIns:Fecha;
+		fin;
+		Seg=registro
+			dni:N(8);
+			apNom:AN(20);
+			mail:AN(20);
+			cole:AN(20);
+		fin;
+		aspFeb,aspAgo:archivo de Asp ordenado por dni;
+		feb,ago:Asp;
+		arSeg:archivo de Seg ordenado por dni;
+		seg:Seg;
+	algoritmo
+		abrir e/(aspFeb,aspAgo);
+		abrir /s(arSeg);
+		leer(aspFeb,feb);
+		leer(aspAgo,ago);
+		mientras nfd(aspFeb) o nfd(aspFeb) hacer
+			si(feb.dni==ago.dni)
+				entonces
+					seg.dni:=feb.dni;
+					seg.apNom:=feb.apNom;
+					seg.mail:=feb.mail;
+					seg.cole:=feb.cole;
+					leer(aspAgo,ago);
+					leer(aspFeb,feb);
+				contrario
+					si(feb.dni<ago.dni)
+						entonces
+							leer(aspFeb,feb);
+						contrario
+							leer(aspAgo,ago);
+					fin;
+			fin;
+		fin;
+		cerrar(arSeg,aspAgo,aspFeb);
+fin;

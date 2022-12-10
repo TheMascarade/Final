@@ -1,0 +1,88 @@
+accion auto es
+	ambiente
+		Peaje=registro
+			patente:AN(7);
+			fecha:Fecha;
+			ultHora:N(4);
+			costo:N(3,2);
+		fin;
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		arPeaje:archivo de Peaje indexado por patente,fecha;
+		peaje:Peaje; continuar:Booleano;
+		patente:AN(7);
+		fechaAc:Fecha;
+		cat1=1.20;
+		cat2=2.50;
+		cat3=4.00;
+		cat4=5.00;
+		procedimiento generar_comprobante es
+			ambiente
+				categoria:1..4;
+			algoritmo
+				esc("Ingrese categoria");
+				esc("Patente: "; patente);
+				peaje.patente:=patente;
+				esc("Fecha :"; fechaAc.dia;"/"; fechaAc.mes; "/"; fechaAc.año);
+				peaje.fecha:=fechaAc;
+				esc("Ingrese categoria");
+				leer(categoria);
+				segun (categoria) hacer
+					1:
+						esc("Costo: "; cat1);
+						peaje.costo:=cat1;
+					2:
+						esc("Costo: "; cat2);
+						peaje.costo:=cat2;
+					3:
+						esc("Costo: "; cat3);
+						peaje.costo:=cat3;
+					4:
+						esc("Costo: "; cat4);
+						peaje.costo:=cat4;
+				fin;
+				regrabar(arPeaje,peaje);
+		fin;
+		procedimiento ingresar_patente es
+			esc("Ingresar patente");
+			leer(patente);
+		fin;
+		procedimiento ingresar_fecha es
+			esc("Ingrese la fecha actual");
+			leer(fechaAc.dia);
+			leer(fechaAc.mes);
+			leer(fechaAc.año);
+		fin;
+		procedimiento seguir es
+			ambiente
+				op:(1,2);
+			algoritmo
+				esc("Desea continuar?");
+				esc("Si:1");
+				esc("No:2");
+				leer(op);
+				segun op hacer
+					2: continuar:=falso;
+				fin;
+		fin;
+	algoritmo
+		continuar:verdadero;
+		ingresar_patente;
+		ingresar_fecha;
+		mientras continuar hacer
+			peaje.patente:=patente;
+			peaje.fecha:=fecha
+			leer(arPeaje,peaje);
+			si existe
+				entonces
+					esc("Pasa gratis");
+				contrario
+					generar_comprobante;
+			fin;
+			seguir;
+		fin;
+		cerrar(arPeaje);
+fin.

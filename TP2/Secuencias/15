@@ -1,0 +1,38 @@
+accion promedioPalabras es
+	ambiente
+		sec:secuencia de caracteres;
+		e:AN(1);
+		conPal,conOra:N(4);
+		PUNTO=".";
+		BLANCO=" ";
+		procedmiento tratar_blancos(sec:secuencia de caracteres;e:AN(1)) es
+			mientras (e==BLANCO) y nfd(sec) hacer
+				avz(sec,e);
+			fin;
+		fin;
+		procedmiento tratar_palabra(sec:secuencia de caracteres;e:AN(1)) es
+			mientras (e<>BLANCO) y (e<>PUNTO) hacer
+				avz(sec,e);
+			fin;
+			conPal:=conPal+1;
+		fin;
+		procedmiento tratar_oracion(sec:secuencia de caracteres;e:AN(1)) es
+			mientras (e<>PUNTO) y nfd(sec) hacer
+				tratar_blancos;
+				tratar_palabra;
+			fin;
+			si(e==PUNTO)
+				entonces
+					conOra:=conOra+1;
+			fin;
+		fin;
+	algoritmo
+		arr(sec);
+		avz(sec,e);
+		conPal,conOra:=0;
+		mientras nfd(sec) hacer
+			tratar_oracion(sec,e);
+		fin;
+		conOra:=conPal div conOra;
+		informar;
+fin.

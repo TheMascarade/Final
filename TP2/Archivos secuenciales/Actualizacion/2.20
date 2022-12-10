@@ -1,0 +1,75 @@
+accion facu es
+	ambiente
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		Alu=registro
+			nroLegajo:N(6);
+			apNom:AN(20);
+			carrera: ("ISI","IEM","IQ");
+			fechaNacimiento:Fecha;
+			fechaIngreso:Fecha;
+			dni:N(8);
+			sexo:("M","F");
+			fechaUltExa:Fecha;
+			nota:N(2);
+		fin;
+		Exa=registro
+			nroLegajo:N(6);
+			carrera:("ISI","IEM","IQ");
+			codMat:N(6);
+			fecExa:Fecha;
+			nota:N(2);
+		fin;
+		arHisto,arNuevo:archivo de Alu ordenado por nroLegajo;
+		arExa:archivo de Exa ordenado por nroLegajo;
+		histo,nuevo:Alu;
+		exa:Exa;
+		procedimiento modif es
+			nuevo:=histo;
+			mientras (histo.nroLegajo==exa.nroLegajo) hacer
+				nuevo.fecExa:=exa.fecExa;
+				nuevo.nota:=exa.nota;
+				leer_movimiento;
+			fin;
+			esc(arNuevo,nuevo);
+		fin;
+		procedimiento leer_maestro es
+			leer(arHisto,histo);
+			si fd(arHisto)
+				entonces
+					histo.nroLegajo:=HV;
+			fin;
+		fin;
+		procedimiento leer_movimiento es
+			leer(arExa,exa);
+			si fd(arExa)
+				entonces
+					exa.nroLegajo:=HV;
+			fin;
+		fin;
+	algoritmo
+		abrir e/(arHisto,arExa);
+		abrir /s(arNuevo);
+		leer(arHisto,histo);
+		leer(arExa,exa);
+		mientras (histo.nroLegajo<>HV) o (exa.nroLegajo<>HV) hacer
+			si(histo.nroLegajo<exa.nroLegajo)
+				entonces
+					nuevo:=histo;
+					esc(arNuevo,nuevo);
+					leer_maestro;
+				contrario
+					si(histo.nroLegajo==exa.nroLegajo)
+						entonces
+							modif;
+							leer_maestro;
+						contrario
+							leer_movimiento;
+					fin;
+			fin;
+		fin;
+		cerrar(arNuevo,arHisto,arExa);
+fin.

@@ -1,0 +1,76 @@
+// ESTA MAS PLANTEADO: como el archivo de detalle pide codigo de producto y cantidad por producto no se pueden registrar todas las compras bajo un mismo numero de ticket. Se debe generar un ticket diferente para cada compra.
+
+accion caja es
+	ambiente
+		Prod=registro
+			codProd:N(8);
+			nom:AN(20);
+			stock:N(4);
+			precio:N(3.2);
+		fin;
+		Ticket=registro
+			nroTicket:N(8);
+			fecha:Fecha;
+			cli:AN(20);
+		fin;
+		Det=registro
+			nroTicket:N(8);
+			nroLinea:N(2);
+			codProd:N(8);
+			cant:N(3);
+		fin;
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		arProd:archivo de Prod indexado por codProd;
+		arTicket:archivo de Ticket indexado por nroTicket;
+		arDet:archivo de Det indexado por nroTicket;
+		prod:Prod;ticket:Ticket;det:Det;
+		Cliente="Consumidor final";
+		parar:(1,2);
+		procedimiento registrar_compra es
+			ambiente
+				empresa:AN(20);
+				cuit:N(11);
+				fecha:Fecha;
+				codProd:N(8);
+				cant:N(4);ticket:N(8);
+				parar:(1,2);nroLinea:N(2);
+			algoritmo
+				esc("Empresa: ");
+				leer(empresa);
+				esc("CUIT: ");
+				leer(cuit);
+				esc("Fecha actual: ");
+				leer(fecha.dia);leer(fecha.mes);leer(fecha.año);
+				esc("Empresa: "; empresa; " CUIT: "; cuit; " Fecha: "; fecha.dia; "/"; fecha.mes; "/"; fecha.año);
+				esc("Cliente: "; Cliente);
+				ticket:=obtener_ticket;
+				generar_ticket;
+				parar:=1;
+				mientras (parar==1) hacer
+					esc("Ingrese codigo de producto");
+					leer(codProd);
+					prod.codProd:=codProd;
+					leer(arProd,prod);
+					si existe
+						entonces
+							esc("Ingrese cantidad");
+							leer(cant);
+							si(cant<=prod.stock)
+								entonces
+									prod.stock:=prod.stock-cant;
+									regrabar(arProd,prod);
+									generar_detalle;
+									esc(prod.nombre; cantidad; cantidad*prod.precio);
+								contrario
+									esc("No queda stock");
+							fin;
+						contrario
+							esc("No existe producto");
+					fin;
+					esc("Parar? 1: NO, 2: SI");
+					leer(parar);
+				fin;

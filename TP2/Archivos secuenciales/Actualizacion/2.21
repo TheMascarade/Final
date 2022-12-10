@@ -1,0 +1,84 @@
+accion utnBook es
+	ambiente
+		Ami=registro
+			clave:registro
+				codUs:N(8);
+				codAmi:N(8);
+			fin;
+			fecAmi:Fecha;
+			mensaje:AN(30);
+		fin;
+		Noti=registro
+			clave:registro
+				codUs:N(8);
+				codAmi:N(8);
+			fin;
+			codMov:("A","B","M");
+			fecAmi:Fecha;
+			mensaje:AN(30);
+		fin;
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		arMae,arNuevo:archivo de Ami ordenado por clave;
+		arNoti:archivo de Noti ordenado por clave,codMov;
+		mae,nuevo:Ami;
+		noti:Noti;
+		procedimiento leer_maestro es
+			leer(arMae,mae);
+			si fd(arMae)
+				entonces
+					mae.clave:=HV;
+			fin;
+		fin;
+		procedimiento leer_movimiento es
+			leer(arNoti,noti);
+			si fd(arNoti)
+				entonces
+					noti.clave:=HV;
+			fin;
+		fin;
+		procedimiento alta_amigo es
+			nuevo.clave:=noti.clave;
+			nuevo.fecAmi:=noti.fecAmi;
+			nuevo.mensaje:=noti.mensaje;
+			esc(arNuevo,nuevo);
+		fin;
+		procedimiento modif_mensaje es
+			nuevo:=mae;
+			nuevo.mensaje:=noti.mensaje;
+			esc(arNuevo,nuevo);
+		fin;
+	algoritmo
+		abrir e/(arNoti,arMae);
+		abrir /s(arNuevo);
+		leer(arNoti,noti);
+		leer(arMae,mae);
+		mientras (mae.clave<>HV) o (noti.clave<>HV) hacer
+			si(mae.clave<noti.clave)
+				entonces
+					nuevo:=mae;
+					esc(arNuevo,nuevo);
+					leer_maestro;
+				contrario
+					si(mae.clave==noti.clave)
+						entonces
+							segun (noti.codMov) hacer
+								"A":esc("Ya son amigos");
+								"M":modif_mensaje;
+							fin;
+							leer_maestro;
+							leer_movimiento;
+						contrario
+							segun (noti.codMov) hacer
+								"A":alta_amigo;
+								otros:esc("Error, no son amigos");
+							fin;
+							leer_movimiento;
+					fin;
+			fin;
+		fin;
+		cerrar(arNuevo,arMae,arNoti);
+fin.

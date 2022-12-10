@@ -1,0 +1,125 @@
+Punto 1: Calcular sueldo de empleado de UTN y generar un listado de cada uno de ellos con su sueldo actualizado.
+
+accio liqui es
+	ambiente
+		Nove=registro
+			lega:N(8);
+			codNov:N(8);
+			tipoNov:("D","R");
+			monto:N(8);
+		fin;
+		Empl=registro
+			lega:N(8);
+			nombre:AN(20);
+			cargo:1..10;
+			basico:N(8);
+		fin;
+		Suel=registro
+			lega:N(8);
+			mes:1..12;
+			año:N(4);
+			cargo:1..10;
+			neto:N(8);
+		fin;
+		arNov:archivo de Nove ordenado por lega,codNov; nove:Nove;
+		arEmp:archivo de Empl indexado por lega; emp:Empl;
+		arSuel:archivo de Suel indexado por lega, mes, año; sueldo:Suel;
+		procedimiento generar_sueldo es
+			sueldo.lega:=emp.lega;
+			sueldo.mes:=fecha_sistema.mes;
+			sueldo.año:=fecha_sistema.año;
+			sueldo.cargo:=emp.cargo;
+			sueldo.neto:=emp.basico;
+			mientras (nove.lega==suel.lega) y nfd(nove) hacer
+				segun (nove.tipoNove) hacer
+					"D":
+						sueldo.neto:=sueldo.neto-nove.monto;
+					"R":
+						sueldo.neto:=sueldo.neto+nove.monto;
+				fin;
+				leer(arNov,nove);
+			fin;
+			grabar(arSuel,sueldo);
+			listar_detalle_empleado;
+		fin;
+		procedimiento listar_detalle_empleado es
+			esc(emp.lega; emp.nombre; emp.cargo; sueldo.mes; sueldo.año; suelto.neto);
+		fin;
+	algoritmo
+		abrir e/(arNov,arEmp);
+		abrir /s(arSuel);
+		leer(arNov,nove);
+		mientras nfd(arNov) hacer
+			emp.lega:=nove.lega;
+			leer(arEmp,emp);
+			si existe
+				entonces
+					generar_sueldo;
+				contrario
+					esc("Empleado no existe en el sistema");
+					repetir
+						leer(arNov,nove);
+					hasta (nove.lega<>emp.lega) o fd(arNov);
+			fin;
+		fin;
+		cerrar(arNov,arSuel,arEmp);
+fin.
+
+Punto 2: Convertir un número binario de 48b a un numero hexadecimal
+
+accion a_binario(bin:secuencia de enteros) es
+	ambiente
+		v:N(1);
+		hexa:secuencia de caracteres; s:AN(1);
+		numBin:N(4);
+		funcion generar_numero():N(4) es
+			ambiente
+				i:1..4;
+			algoritmo
+				generar_numero:=0;
+				para i:=1 hasta 4 hacer
+					generar_numero:=generar_numero*10+v;
+					avz(bin,v);
+				fin;
+		fin;
+		funcion bin_a_hexa(num:N(4)):AN(1) es
+			segun (num) hacer
+				0: bin_a_hexa:="0";
+				1: bin_a_hexa:="1";
+				10: bin_a_hexa:="2";
+				11: bin_a_hexa:="3";
+				100: bin_a_hexa:="4";
+				101: bin_a_hexa:="5";
+				110: bin_a_hexa:="6";
+				111: bin_a_hexa:="7";
+				1000: bin_a_hexa:="8";
+				1001: bin_a_hexa:="9";
+				1010: bin_a_hexa:="A";
+				1011: bin_a_hexa:="B";
+				1100: bin_a_hexa:="C";
+				1101: bin_a_hexa:="D";
+				1110: bin_a_hexa:="E";
+				1111: bin_a_hexa:="F";
+			fin;
+		fin;
+		procedimiento grabar_octeto es
+			ambiente
+				i:1..2;
+			algoritmo
+				para i:=1 hasta 2 hacer
+					numBin:=generar_numero();
+					s:=bin_a_hexa(numBin);
+					esc(hexa,s);
+				fin;
+		fin;
+	algoritmo
+		arr(bin,hexa);
+		avz(bin,v);
+		numBin:=0;
+		mientras nfd(bin) hacer
+			grabar_octeto;
+			s:="-";
+			esc(hexa,s);
+		fin;
+		cerrar(hexa,bin);
+fin.

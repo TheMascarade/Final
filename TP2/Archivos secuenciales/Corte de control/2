@@ -1,0 +1,33 @@
+accion alumnos es
+	ambiente
+		Alu = registro
+			sexo:("M","F");
+			carrera:("ISI","IEM","IQ");
+			nroLegajo:
+			fechaIngreso:N(4);
+			matAprobadas:N(2);
+		fin;
+		arAlu: archivo de Alu ordenado por sexo, carrera, nroLegajo;
+		alu: Alu;
+		conMas,conMenos:N(4);
+		fechaControl = 2009;
+		matControl = 20;
+	algoritmo
+		abrir e/(arAlu);
+		leer(arAlu,alu);
+		conMas,conMenos := 0;
+		mientras nfd(arAlu) hacer
+			si(alu.fechaIngreso == fechaControl)
+				entonces
+					si(alu.matAprobadas >= matControl)
+						entonces
+							conMas := conMas + 1;
+						contrario
+							conMenos := conMenos + 1;
+					fin;
+			fin;
+			leer(arAlu,alu);
+		fin;
+		cerrar(arAlu);
+		informar;
+fin.

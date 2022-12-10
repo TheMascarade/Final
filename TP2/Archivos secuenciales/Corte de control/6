@@ -1,0 +1,88 @@
+accion alumnos es 
+	ambiente
+		Alus=registro
+			esc:AN(20);
+			año:N(1);
+			div:AN(20);
+			nom:AN(20);
+			cantIn:N(3);
+		fin;
+		arAlu:archivo de Alus ordenado por esc,año,div;
+		alu:Alus;
+		distrito:AN(20);
+		diasClase:N(3);
+		totEscAlu,totEscLib,totAñoLib,totAñoReg,totDivAlu,totInas:N(8);
+		resDiv,resEsc:AN(20);resAño:N(1);
+		funcion es_libre(alumno:Alus):booleano
+			si(alumno.cantIn div diasClase * 100 > 20)
+				entonces
+					es_libre:=verdadero;
+			fin;
+			es_libre:=falso;
+		fin;
+		procedmiento corte_division es
+			esc("Escuela: "; resEsc);
+			esc("Año: "; resAño);
+			esc("Cantidad de alumnos: "; totDivAlu);
+			resDiv:=alu.div;
+			totEscAlu:=totEscAlu+totDivAlu;
+			totDivAlu:=0;
+		fin;
+		procedmiento corte_año es
+			esc("Escuela: "; resEsc);
+			esc("Año: "; resAño);
+			esc("Alumnos libres: "; totAñoLib);
+			esc("Alumnos regulares: "; totAñoReg);
+			esc("Total de alumnos: "; totAñoLib+totAñoReg);
+			resAño:=alu.año;
+			totEscLib:=totEscLib+totAñoLib;
+			totAñoLib,totAñoReg:=0;
+		fin;
+		procedmiento corte_escuela es
+			esc("Escuela: "; resEsc);
+			esc("Total alumnos: "; totEscAlu);
+			esc("Porcentaje libres: "; totEscLib div totEscAlu * 100);
+			esc("Promedio inasistencias: "; totInas div totEscAlu);
+			resEsc:=alu.esc;
+			totEscAlu,totEscLib:=0;
+		fin;
+		procedmiento inicializar es
+			resAño:=alu.año;
+			resEsc:=alu.esc;
+			resDiv:=alu.div;
+			totDivAlu,totAñoLib,totAñoReg,totEscAlu,totEscLib,totInas:=0;
+			esc("Ingrese nombre de distrito");
+			leer(distrito);
+			esc("Ingrese cantidad de clases dadas");
+			leer(diasClase);
+		fin;
+	algoritmo
+		abrir e/(arAlu);
+		leer(arAlu,alu);
+		inicializar;
+		mientras nfd(arAlu) hacer
+			si(resEsc<>alu.esc)
+				entonces
+					corte_escuela;
+				contrario
+					si(resAño<>alu.año)
+						entonces
+							corte_año;
+						contrario
+							si(resDiv<>alu.div)
+								entonces
+									corte_division;
+							fin;
+					fin;
+			fin;
+			totInas:=totInas+alu.cantIn;
+			totDivAlu:=totDivAlu+1;
+			si(es_libre(alu))
+				entonces
+					totAñoLib:=totAñoLib+1;
+				contrario
+					totAñoReg:=totAñoReg+1;
+			fin;
+			leer(arAlu,alu);
+		fin;
+fin;

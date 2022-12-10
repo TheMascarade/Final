@@ -1,0 +1,47 @@
+accion facturas es
+	ambiente
+		Fac=registro
+			nroCli:N(8);
+			nroFac:N(8);
+			fecha:Fecha;
+			imp:N(8);
+		fin;
+		Cli=registro
+			nroCli:N(8);
+			nomAp:AN(20);
+			dni:N(8);
+			cuit:N(11);
+			dom:AN(20);
+		fin;
+		Fecha=registro
+			dia:1..31;
+			mes:1..12;
+			año:N(4);
+		fin;
+		arFac:archivo de Fac ordenado por nroCli,nroFac;
+		arCli:archivo de Cli indexado por nroCli;
+		fac:Fac; resCli:N(8);
+		cli:Cli;
+	algoritmo
+		abrir e/(arFac);
+		abrir e/s(arCli);
+		leer(arFac,fac);
+		mientras nfd(arFac) hacer
+			cli.nroCli:=fac.nroCli;
+			leer(arCli,cli);
+			si existe
+				entonces
+					repetir
+						esc(cli.nroCli; cli.nomAp; fac.nroFac);
+						leer(arFac,fac);
+					hasta (fac.nroCli<>cli.nroCli) o nfd(arFac);
+				contrario
+					esc("Cliente no existe");
+					resCli:=fac.nroCli;
+					repetir
+						leer(arFac,fac);
+					hasta (fac.nroCli<>resCli) o fd(arFac);
+			fin;
+		fin;
+		cerrar(arFac,arCli);
+fin.

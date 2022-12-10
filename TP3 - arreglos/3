@@ -1,0 +1,11 @@
+accion elem(a:arreglo[1..N] de real; x:real) es
+	ambiente
+		i:entero(1);
+		y:real;
+	proceso
+		y:=0;
+		para i:=1 hasta N hacer
+			y:=y+a[i]*x^i;
+		fin;
+		esc("Valor: "; y);
+fin.

@@ -1,0 +1,91 @@
+accion pepsico es
+	ambiente
+		Cli=registro
+			idCli:N(8);
+			nomAp:AN(20);
+			cuit:N(11);
+			saldo:N(3,2);
+		fin;
+		DetCli=registro
+			nroOp:N(8);
+			fechaOp:Fecha;
+			idCli:N(8);
+			imp:N(3,2);
+			facNum:N(8);
+		fin;
+		Ventas=registro
+			nroVen:N(8);
+			fecVenta:Fecha;
+			facNum:N(8);
+			idProd:AN(20);
+			cantVen:N(8);
+			idCli:N(8);
+		fin;
+		Prods=registro
+			idProd:AN(20);
+			stock:N(8);
+			detProd:AN(20);
+			costo:N(3);
+		fin;
+		arCli:archivo de Cli indexado por idCli; cli:Cli;
+		arDet:archivo de DetCli indexado por nroOp; detCli:DetCli;
+		arVen:archivo de Ventas ordenado por nroVen; ven:Ventas;
+		arProd:archivo de Prods indexado por idProd; prod:Prods;
+		procedimiento descontar_stock es
+			prod.idProd:=ven.idProd;
+			leer(arProd,prod);
+			si existe
+				entonces
+					si (ven.cantVen<prod.stock)
+						entonces
+							prod.stock:=prod.stock-ven.cantVen;
+							regrabar(arProd,prod);
+							descontar_saldo;
+							actualizar_detalle_clientes;
+						contrario
+							esc("Venta invalida");
+					fin;
+				contrario
+					esc("Producto inexistente");
+			fin;
+		fin;
+		procedimiento descontar_saldo es
+			cli.idCli:=ven.idCli;
+			leer(arCli,cli);
+			si existe
+				entonces
+					si(cli.saldo>ven.cantVen*prod.costo)
+						entonces
+							cli.saldo:=cli.saldo-(cantVen*prod.costo);
+							regrabar(arCli,cli);
+						contrario
+							esc("Saldo insuficiente");
+					fin;
+				contrario
+					esc("Cliente inexistente");
+			fin;
+		fin;
+		procedimiento actualizar_detalle_clientes es
+			detCli.nroOp:=ven.nroVen;
+			detCli.fechaOp:=ven.fecVenta;
+			detCli.idCli:=ven.idCli;
+			detCli.imp:=ven.cantVen*prod.costo;
+			detCli.facNum:=ven.facNum;
+			grabar(arDet,detCli);
+		fin;
+	algoritmo
+		abrir e/(arVen);
+		abrir e/s(arDet,arCli,arProd);
+		leer(arVen,ven);
+		mientras nfd(arVen) hacer
+			descontar_stock;
+			leer(arVen,ven);
+		fin;
+		cerrar(arVen,arDet,arCli,arProd);
+		abrir e/(arCli);
+		leer(arCli,cli);
+		mientras nfd(arCli) hacer
+			listar_cliente;
+		fin;
+		cerrar(arCli);
+fin.

@@ -1,0 +1,66 @@
+accion padron es
+	ambiente
+		Datos = registro
+			nomAp:AN(20);
+			dni:N(8);
+			dir:AN(20);
+		fin;
+		Persona = registro
+			datos:Datos;
+			clase:N(4);
+			nroMesa:N(2);
+			obs:AN(30);
+			partido:(0,1,2,3);
+		fin;
+		AfilC = registro
+			nomAp:AN(20);
+			dni:N(8);
+			dir:AN(20);
+		fin;
+		NoAfil = registro
+			nomAp:AN(20);
+			dni:N(8);
+			dir:AN(20);
+		fin;
+		claseControl = 1940;
+		C=3;
+		I=0;
+		persona:Persona;
+		afilC:AfilC;
+		afilI:NoAfil;
+		arPer:archivo de Persona;
+		arAfilC:archivo de AfilC;
+		arInd:archivo de NoAfil;
+		funcion afiliada_C(per:Persona):booleano es
+			si(per.partido == C)
+				entonces
+					afiliada_C:=verdadero;
+			fin;
+			afiliada_C:=falso;
+		fin;
+		funcion es_independiente(per:Persona):booleano es
+			si(per.partido == I)
+				entonces
+					es_independiente:=verdadero;
+			fin;
+			es_independiente:=falso;
+		fin;
+	algoritmo
+		abrir e/(arPer);
+		leer(arPer,persona);
+		crear(arAfilC,arInd);
+		mientras nfd(arPer) hacer
+			si(afiliada_C(persona))
+				entonces
+					afilC:=persona.datos;
+					grabar(arAfilC,afilC);
+			fin;
+			si(es_independiente(persona)) y (persona.clase > claseControl)
+				entonces
+					afilI:=persona.datos;
+					grabar(arInd,afilI);
+			fin;
+			leer(arPer,persona);
+		fin;
+		cerrar(arPer,arAfilC,arInd);
+fin.

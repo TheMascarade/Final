@@ -1,0 +1,82 @@
+accion empresa es
+	ambiente
+		Emp=registro
+			nroSuc:N(8);
+			cat:("A","B","C");
+			nomEm:AN(20);
+			codCurso:N(3);
+			tecnico:Booleano;
+		fin;
+		Curso=registro
+			codCurso:N(8);
+			nom:AN(20);
+			fecha:registro
+				dia:1..31;
+				mes:1..12;
+				año:N(4);
+			fin;
+		fin;
+		arEmp:archivo de Emp ordenado por nroSuc,cat;
+		arCur:archivo de Curso indexado por codCurso;
+		emp:Emp;
+		curso:Curso;
+		totEmpTecSuc,totEmpSuc,totEmpTecCat,totEmpCat,totEmpTec,totEmp:N(5);
+		resCat:("A","B","C");
+		resSuc:N(8);
+		procedimiento corte_categoria es
+			esc("Categoria: "; resCat);
+			esc("Total empleados: "; totEmpCat);
+			esc("Total empleados no tecnicos: "; totEmpCat-totEmpTecCat);
+			esc("Total empleados tecnicos: "; totEmpTecCat);
+			totEmpTecSuc:=totEmpTecSuc+totEmpTecCat;
+			totEmpSuc:=totEmpSuc+totEmpCat;
+			resCat:=emp.cat;
+			totEmpCat,totEmpTecCat:=0;
+		fin;
+		procedimiento corte_sucursal es
+			esc("Sucursal: "; resSuc);
+			esc("Total empleados: "; totEmpSuc);
+			esc("Total empleados no tecnicos: "; totEmpTecSuc);
+			esc("Total empelados tecnicos: "; totEmpSuc-totEmpTecSuc);
+			totEmp:=totEmp+totEmpSuc;
+			totEmpTec:=totEmpTec+totEmpTecSuc;
+			totEmpSuc,totEmpTecSuc:=0;
+			resSuc:=emp.nroSuc;
+		fin;
+		procedimiento informe_general es
+			esc("Total empleados en la empresa: "; totEmp);
+			esc("Total empleados tecnicos: "; totEmpTec);
+			esc("Total empleados no tecnicos: "; totEmp-totEmpTec);
+		fin;
+		procedimiento inicializar es
+			resCat:=emp.cat;
+			resSuc:=emp.nroSuc;
+			totEmpTecSuc,totEmpSuc,totEmpTecCat,totEmpCat,totEmpTec,totEmp:=0;
+		fin;
+	algoritmo
+		abrir e/(arEmp);
+		abrir e/s(arCur);
+		leer(arEmp,emp);
+		inicializar;
+		mientras nfd(arEmp) hacer
+			curso.codCurso:=emp.codCurso;
+			leer(arCur,curso);
+			si existe
+				entonces
+					esc(emp.nroSuc;emp.cat;emp.nomAp;curso.nom);
+				contrario
+					esc("Curso no existente");
+			fin;
+			si (resSuc<>emp.nroSuc)
+				entonces
+					corte_sucursal;
+				contrario
+					si(resCat<>emp.cat)
+						entonces
+							corte_categoria;
+					fin;
+			fin;
+			leer(arEmp,emp);
+		fin;
+		informe_general;
+fin.

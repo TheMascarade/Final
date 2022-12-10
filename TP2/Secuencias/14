@@ -1,0 +1,34 @@
+accion carEntreComas es
+	ambiente
+		secE:secuencia de caracteres;
+		e:AN(1);
+		conCar:N(4);
+		COMA=",";
+		procedmiento contar_caracteres(sec:secuencia de caracteres; e:AN(1)) es
+			avz(sec,e);
+			mientras (e<>COMA) y nfd(sec) hacer
+				conCar:=conCar+1;
+				avz(sec,e);
+			fin;
+		fin;
+		procedmiento imprimir_contador(contador:N(4)) es
+			esc(contador);
+			contador:=0;
+		fin;
+	algoritmo
+		arr(secE);
+		avz(secE,e);
+		conCar:=0;
+		mientras nfd(secE) hacer
+			si(e==COMA)
+				entonces
+					contar_caracteres(secE,e);
+					si(e==COMA)
+						entonces
+							imprimir_contador(conCar);
+					fin;
+				contrario
+					avz(secE,e);
+			fin;
+		fin;
+fin.

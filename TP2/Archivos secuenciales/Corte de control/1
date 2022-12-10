@@ -1,0 +1,30 @@
+accion utn es
+	ambiente
+		Alu = registro
+			carrera:("ISI","IEM","IQ");
+			nomAp:AN(20);
+			nroLegajo:N(8);
+		fin;
+		resCarrera: ("ISI","IEM","IQ");
+		conCarrera,conGen: N(4);
+		arAlu: archivo de Alu ordenado por carrera;
+		alu: Alu;
+	algoritmo
+		abrir e/(arAlu);
+		leer(arAlu,alu);
+		resCarrera := alu.carrera;
+		conCarrera,conGen := 0;
+		mientras nfd(arAlu) hacer
+			si(resCarrera <> alu.carrera)
+				entonces
+					esc("Total de alumnos en "; resCarrera; ": "; conCarrera);
+					conGen := conGen + conCarrera;
+					resCarrera := alu.carrera;
+					conCarrera := 0;
+			fin;
+			conCarrera := conCarrera + 1;
+			leer(arAlu,alu);
+		fin;
+		esc("Total de alumnos general: "; conGen);
+		cerrar(arAlu);
+fin.

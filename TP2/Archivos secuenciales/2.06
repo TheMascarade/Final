@@ -1,0 +1,40 @@
+accion graduados es
+	ambiente
+		Grad = registro
+			apNom: AN(20);
+			promGen: N(2);
+		fin;
+		NO=7;
+		SI=8;
+		F=9;
+		grad:Grad;
+		arGrad: archivo de Grad;
+		contGrad:N(3);
+		promGlob:N(2);
+		funcion recomendacion(promedio) es
+			segun (promedio) 
+				<NO: recomendacion:="NO";
+				<SI: recomendacion:="SI";
+				<F: recomendacion:="Favorable";
+				otros: recomendacion:="Muy favorable";
+			fin;
+		fin;
+		procedmiento listar_graduado(grad) es
+			esc("Nombre y apellido: "; grad.apNom);
+			esc("Promedio: "; grad.promGen);
+			esc("Recomendacion: "; recomendacion(grad.promGen));
+		fin;
+	algoritmo
+		abrir e/(arGrad);
+		leer(arGrad,grad);
+		promGlob:=0;
+		contGrad:=0;
+		mientras nfd(arGrad) hacer
+			contGrad:=contGrad+1;
+			promGlob:=promGlob+grad.promGen;
+			listar_graduado(grad);
+			leer(arGrad,grad);
+		fin;
+		esc("Promedio global: "; promGlob div contGrad);
+		cerrar(arGrad);
+fin.

@@ -1,0 +1,40 @@
+ccion alu es
+	ambiente
+		Fecha = registro
+				dia:1..31;
+				mes:1..12;
+				año:entero(4);
+		fin;
+		Alu = registro
+			apYNom: af(20);
+			carrera: ("ISI","IEM","IQ");
+			nroLegajo: entero(6);
+			fechaNacimiento:Fecha;
+			fechaIngreso:Fecha;
+			dni:entero(8);
+			sexo:("M","F");
+			fechaUltExa:Fecha;
+			nota:entero(1);
+		fin;
+		añoControl=2021;
+		notaControl=7;
+		alu: Alu;
+		arAlu: archivo de Alu;
+		procedmiento listar_alu(alu) es
+			esc("Nombre: "; alu.AyN);
+			esc("Legajo: "; alu.nroLegajo);
+			esc("DNI: "; alu.dni);
+			esc("Nota: "; alu.nota);
+		fin;
+	algoritmo
+		abrir e/(arAlu);
+		leer(arAlu,alu);
+		mientras nfd(arAlu) hacer
+			si(alu.fechaIngreso.año == añoControl) y (alu.nota == notaControl)
+				entonces
+					listar_alu(alu);
+			fin;
+			leer(arAlu,alu);
+		fin;
+		cerrar(arAlu);
+fin.

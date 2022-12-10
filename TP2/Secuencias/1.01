@@ -1,0 +1,20 @@
+accion contarA es
+	ambiente
+		variables
+			sec: secuencia de caracteres;
+			v: caracter;
+			contador: entero(4);
+		constantes
+			marca = "*";
+			letra = "A"
+	proceso
+		arr(sec);
+		avz(sec,v);
+		mientras (v<>marca) hacer
+			si (v = letra)
+				entonces
+					contador := contador + 1;
+			fin;
+			avz(sec,v);
+		fin;
+fin.

@@ -1,0 +1,97 @@
+accion farmacia es
+	ambiente
+		Mae=registro
+			clave:registro
+				far:AN(20);
+				medi:AN(20);
+			fin;
+			canAc:N(4);
+			fecVen:registro
+				dia:1..31;
+				mes:1..12;
+				año:N(4);
+			fin;
+		fin;
+		Mov=registro
+			clave:registro
+				far:AN(20);
+				medi:AN(20);
+			fin;
+			codMov:N(1);
+			canRec:N(4);
+		fin;
+		Ven=registro
+			medi:AN(20);
+			canVen:N(4);
+		fin;
+		arHisto,arNuevo:archivo de Mae ordenado por far,medi;
+		arMov:archivo de Mov ordenado por far,medi,codMov;
+		arVen:archivo de Ven ordenado por medi;
+		histo,nuevo:Mae;
+		mov:Mov;
+		ven:Ven;
+		ALTA=1;
+		BAJA=2;
+		MODIF=3;
+		procedimiento leer_maestro es
+			leer(arMae,mae);
+			si fd(arMae)
+				entonces
+					mae.clave:=HV;
+			fin;
+		fin;
+		procedimiento leer_movimiento es
+			leer(arMov,mov);
+			si fd(arMov)
+				entonces
+					mov.clave:=HV;
+			fin;
+		fin;
+		procedimiento alta es
+			nuevo.clave:=mov.clave;
+			nuevo.canAc:=mov.canRec;
+			nuevo.fecVen:=sistema.fecha()+30;
+			esc(arNuevo,nuevo);
+		fin;
+		procedimiento modif es
+			nuevo:=histo;
+			nuevo.canAc:=nuevo.canAc+mov.canRec;
+			esc(arNuevo,nuevo);
+		fin;
+		procedimiento baja es
+			ven.medi:=histo.medi;
+			ven.canVen:=histo.canAc;
+			esc(arVen,ven);
+		fin;
+	algoritmo
+		abrir e/(arHisto,arMov);
+		abrir /s(arNuevo,arVen);
+		leer(arHisto,histo);
+		leer(arVen,ven);
+		mientras (histo.clave<>HV) o (mov.clave<>HV) hacer
+			si(histo.clave=mov.clave)
+				entonces
+					segun (mov.codMov) hacer
+						ALTA: esc("Error, remedio ya existente");
+						BAJA: baja;
+						MODIF: modif;
+					fin;
+					leer_maestro;
+					leer_movimiento;
+				contrario
+					si(histo.clave<mov.clave)
+						entonces
+							nuevo:=histo;
+							esc(arNuevo,nuevo);
+							leer_maestro;
+						contrario
+							segun (mov.codMov) hacer
+								ALTA: alta;
+								otros: esc("Error, registro inexistente");
+							fin;
+							leer_movimiento;
+					fin;
+			fin;
+		fin;
+		cerrar(arNuevo,arVen,arHisto,arMov);
+fin.

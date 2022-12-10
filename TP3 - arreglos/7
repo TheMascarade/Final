@@ -1,0 +1,53 @@
+accion buscar_nombre(a:arreglo[1..N] de an(10);N:entero) es
+	ambiente
+		pos,i:entero(1);
+		nom:an(10);
+		bandera:bool;
+	algoritmo
+		esc("Ingrese el nombre a buscar");
+		leer(nom);
+		bandera:=falso;
+		i:=1;
+		mientras no(bandera) y (i<=N) hacer
+			si(a[i]==nom)
+				entonces
+					bandera:=verdadero;
+					pos:=i;
+				contrario
+					i:=i+1;
+			fin;
+		fin;
+		si(i>N)
+			entonces
+				esc("Nombre no encontrado");
+			contrario
+				esc("Nombre encontrado en la posición "; pos);
+		fin;
+fin.
+
+accion buscar_nombre_bin(N:entero;a:arreglo[1..N] de entero) es
+	ambiente
+		nombre:an(10);
+		izq,der,med:entero(1);
+	algoritmo
+		izq:=1;
+		der:=N;
+		med:=(izq+der) div 2;
+		esc("Ingrese el nombre");
+		leer(nombre);
+		mientras (a[med] <> nombre) y (izq < der) hacer
+			si(nombre < a[med])
+				entonces
+					der:=med - 1;
+				contrario
+					izq:=med + 1;
+			fin;
+			med:=(izq+der) div 2;
+		fin;
+		si(a[med] == nombre)
+			entonces
+				esc("Nombre encontrado en la posicion "; med);
+			contrario
+				esc("Nombre no encontrado");
+		fin;
+fin.

@@ -1,0 +1,69 @@
+accion palALG es
+	ambiente
+		secE:secuencia de caracteres;
+		e:AN(1);
+		conAlg,conGen:N(4);
+		A="A";
+		L="L";
+		G="G";
+		Blanco=" ";
+		funcion comienza_con_alg(sec:secuencia de caracteres; e:AN(1)):booleano	
+			ambiente
+				i:N(1)
+			algoritmo
+				comienza_con_alg:=verdadero;
+				i:=1;
+				mientras (comienza_con_alg) y (i<=3) hacer
+					segun (i) hacer
+						1:
+							si(e<>A)
+								entonces
+									comienza_con_alg:=falso;
+							fin;
+						2:
+							si(e<>L)
+								entonces
+									comienza_con_alg:=falso;
+							fin;
+						3:
+							si(e<>G)
+								entonces
+									comienza_con_alg:=falso;
+							fin;
+					fin;
+					i:=i+1;
+					avz(sec,e);
+				fin;
+		fin;
+		procedmiento imprimir_palabra(sec:secuencia de caracteres;e:AN(1))
+			esc("ALG");
+			mientras (e<>Blanco) y nfd(sec) hacer
+				esc(e);
+				avz(sec,e);
+			fin;
+		fin;
+		procedmiento saltear_palabra(sec:secuencia de caracteres;e:AN(1))
+			mientras (e<>Blanco) y nfd(sec) hacer
+				avz(sec,e);
+			fin;
+		fin;
+	algoritmo
+		arr(secE);
+		avz(secE,e);
+		conAlg,conGen:=0;
+		mientras nfd(secE) hacer
+			mientras (e==Blanco) hacer
+				avz(secE,e);
+			fin;
+			si(comienza_con_alg(secE,e))
+				entonces
+					imprimir_palabra;
+					conAlg:=conAlg+1;
+				contrario
+					saltear_palabra;
+			fin;
+			conGen:=conGen+1;
+		fin;
+		conGen:=conAlg div conGen * 100;
+		informar;
+fin.

@@ -1,0 +1,85 @@
+accion casino es
+	ambiente
+		Rep=registro
+			codSuc:N(8);
+			marca:AN(20);
+			mod:AN(20);
+			codTrag:N(8);
+			fechaRep:registro
+				dia:1..31;
+				mes:1..12;
+				año:N(4);
+			fin;
+		fin;
+		arEn:archivo de Rep ordenado por codSuc,marca,mod,codTrag;
+		resMod,resMar:AN(20)
+		resTrag,resSuc:N(8);
+		rep:Rep;
+		totGen,totSuc,totMar,totMod,totTrag:N(8);
+		procedmiento corte_tragamonedas es
+			esc("Sucursal: "; resSuc);
+			esc("Marca: "; resMar);
+			esc("Modelo: "; resMod);
+			esc("Codigo tragamonedas: "; resTrag);
+			esc("Reparaciones: "; totTrag);
+			resTrag:=rep.codTrag;
+			totMod:=totMod+totTrag;
+			totTrag:=0;
+		fin;
+		procedmiento corte_modelo es
+			esc("Sucursal: "; resSuc);
+			esc("Marca: "; resMar);
+			esc("Modelo: "; resMod);
+			esc("Reparaciones: "; totMod);
+			resMod:=rep.mod;
+			totMar:=totMar+totMod;
+			totMod:=0;
+		fin;
+		procedmiento corte_marca es
+			esc("Sucursal: "; resSuc);
+			esc("Marca: "; resMar);
+			esc("Reparaciones: "; totMar);
+			resMar:=rep.marca;
+			totSuc:=totSuc+totMar;
+			totMar:=0;
+		fin;
+		procedmiento corte_sucursal es
+			esc("Sucursal: "; resSuc);
+			esc("Reparaciones: "; totSuc);
+			resSuc:=rep.codSuc;
+			totGen:=totGen+totSuc;
+			totSuc:=0;
+		fin;
+		procedmiento informe_general es
+			esc("Reparaciones totales: "; totGen);
+		fin;
+	algoritmo
+		abrir e/(arEn);
+		leer(arEn,rep);
+		totGen,totSuc,totMar,totMod,totTrag:=0;
+		resSuc:=rep.codSuc;resMar:=rep.marca;resMod:=rep.mod;resTrag:=rep.codTrag;
+		mientras nfd(arEn) hacer
+			si(rep.codSuc<>resSuc)
+				entonces
+					corte_sucursal;
+				contrario
+					si(rep.marca<>resMar)
+						entonces
+							corte_marca;
+						contrario
+							si(rep.mod<>resMod)
+								entonces
+									corte_modelo;
+								contrario
+									si(rep.codTrag<>resTrag)
+										entonces
+											corte_tragamonedas;
+									fin;
+							fin;
+					fin;
+			fin;
+			totTrag:=totTrag+1;
+			leer(arEn,rep);
+		fin;
+		informe_general;
+fin.

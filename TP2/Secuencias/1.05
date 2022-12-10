@@ -1,0 +1,54 @@
+accion sociosAusentes es
+	ambiente
+		variables
+			secE,secS:secuencia de enteros;
+			v,s:entero(1);
+			long:entero;
+			inf,sup:entero;
+		funcion nro_socio (sec:secuencia de enteros; v: entero(1); long: entero)
+			nro_socio:=0;
+			para i:= 1 hasta long hacer
+				nro_socio := nro_socio * 10 + v;
+				avz(sec,v);
+			fin;
+		fin;
+		funcion son_correlativos (num1,num2:entero)
+			si (num1 - num2 = 1)
+				entonces
+					sonCorrelativos:=verdadero;
+				contrario
+					sonCorrelativos:=falso;
+			fin;
+		fin;
+		procedmiento grabar_faltantes(nro1,nro2:entero;secS:secuencia de enteros;s:entero(1))
+			ambiente
+				variables
+					resto: entero;
+			proceso
+				para i:=(nro1 + 1) hasta (nro2 - 1) hacer
+					resto:=i;
+					para j:=1 hasta long hacer
+						s:=resto div 10^(long-j);
+						resto:=i mod 10^(long-j);
+						esc(secS,s);
+					fin;
+				fin;
+		fin;
+	proceso
+		crear(secS);
+		arr(secE,secS);
+		avz(secE,v);
+		esc("Ingrese la longitud de los codigos de socio");
+		leer(long);
+		inf,sup:=0;
+		inf:=nro_socio(secE,v,long);
+		mientras nfd(secE) hacer
+			sup:=nro_socio(secE,v,long);
+			si NOT (son_correlativos(inf,sup))
+				entonces
+					grabar_faltantes(inf,sup,secS,s);
+			fin;
+			inf:=sup;
+		fin;
+		cerrar(secS,secE);
+fin.

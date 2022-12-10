@@ -1,0 +1,46 @@
+accion libros es
+	ambiente
+		Lib=registro
+			nroLib:entero;
+			tit:an(20);
+			autor:an(20);
+			canHojas:entero;
+		fin;
+		a:arreglo[1..200] de Lib;
+		i,posLib:entero(1);
+		titLib:an(20);
+		acHojas:entero;
+		LIB="Algoritmos + Estructuras de Datos=Programa";
+		AUTOR="Nicklaus Wirth";
+		procedimiento informar_libro es
+			esc("Titulo: "; a[i].tit);
+			esc("Nro Libro: "; a[i].nroLib);
+			esc("------------");
+		fin;
+	algoritmo
+		acHojas:=0;
+		i:=1;
+		mientras (a[i].autor <> AUTOR) y (i<=200) hacer
+			i:=i+1;
+		fin;
+		mientras (a[i].autor == AUTOR) y (i<=200) hacer
+			informar_libro;
+			si (a[i].tit == LIB)
+				entonces
+					posLib:=i;
+			fin;
+			si (a[i].canHojas > acHojas)
+				entonces
+					acHojas:=a[i].canHojas;
+					titLib:=a[i].tit;
+			fin;
+			i:=i+1;
+		fin;
+		esc("El libro de mayor volumen de "; AUTOR; " es: "; titLib);
+		si (posLib<>0)
+			entonces
+				esc("Libro "; LIB; " encontrado en posicion "; posLib);
+			contrario
+				esc("No se ha encontrado "; LIB);
+		fin;
+fin.

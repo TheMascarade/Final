@@ -1,0 +1,47 @@
+accion productos es
+	ambiente
+		Prod = registro
+			codProd:N(4);
+			tipo:(1,2,3);
+			marca:AN(20);
+			modelo:AN(20);
+			desc:AN(20);
+			cant:N(3);
+		fin;
+		T1=0,01;
+		T2=0.025;
+		T3=0.5;
+		cT1,cT2,cT3,cG:N(4);
+		arEn,arSal: archivo de Prod;
+		prodEn,prodSal: Prod;
+		procedmiento actualizar_precios(prodE,prodS:Prod) es
+			segun (prodE.tipo)
+				1: prodS:=prodE + (prodE*T1);
+				2: prodS:=prodE + (prodE*T2);
+				3: prodS:=prodE + (prodE*T3);
+			fin;
+			esc(arSal,prodS);
+		fin;
+		procedmiento contar_producto(producto) es
+			segun (producto.tipo)
+				1: cT1 := cT1 + 1;
+				2: cT2 := cT2 + 1;
+				3: cT3 := cT3 + 1;
+			fin;
+			cG := cG + 1;
+		fin;
+	algoritmo
+		abrir e/(arEn);
+		crear (arSal);
+		leer(arEn, prodEn);
+		cT1,cT2,cT3,cG := 0;
+		mientras nfd(arEn) hacer
+			actualizar_precios(prodE,prodS);
+			contar_producto(prodE);
+		fin;
+		esc("Totales de productos por tipo");
+		esc("Tipo 1: "; cT1);
+		esc("Tipo 2: "; cT2);
+		esc("Tipo 3: "; cT3);
+		esc("General: "; cG);
+fin.
