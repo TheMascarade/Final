@@ -1,0 +1,34 @@
+accion ranking_ventas es
+	ambiente
+		Art=registro
+			nomArt:an(20);
+			tipo:an(20);
+			canVen:entero;
+		fin;
+		arts: arreglo [1..N] de Art;
+		i:entero;
+		procedimiento ordenar es
+			ambiente
+				resArt:Art;
+				j:entero;
+			algoritmo
+				para i:=2 hasta N hacer
+					resArt:=arts[i];
+					j:=i-1;
+					mientras (j>0) y (resArt.canVen>arts[j].canVen) hacer
+						arts[j+1]:=arts[j];
+						j:=j-1;
+					fin;
+					arts[j+1]:=resArt;
+				fin;
+		fin;
+		procedimiento listar_articulos es
+			para i:=1 hasta N hacer
+				esc("Nombre de articulo: "; arts[i].nomArt);
+				esc("Cantidad vendida: "; arts[i].canVen);
+			fin;
+		fin;
+	algoritmo
+		ordenar;
+		listar_articulos;
+fin.

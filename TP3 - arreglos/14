@@ -1,0 +1,60 @@
+// Se supuso que cada diseñador puede tener mas de un modelo a cargo
+
+accion alta_moda es
+	ambiente
+		Dis=registro
+			nomDis:an(20);
+			mod: arreglo [1..N] de Mod;
+		fin;
+		Mod=registro
+			nomMod:an(20);
+			altura:real;
+		fin;
+		dis:arreglo [1..M] de Dis; i:entero;
+		procedimiento inicializar es
+			ambiente
+				i,j:entero(1);
+			algoritmo
+				para i:=1 hasta M hacer
+					esc("Ingrese nombre de diseñador");
+					leer(dis.nomDis);
+					para j:=1 hasta N hacer
+						esc("Ingrese el nombre de el/la modelo");
+						leer(dis.mod.nomMod);
+						esc("Ingrese su altura");
+						leer(dis.mod.altura);
+					fin;
+				fin;
+		fin;
+		procedimiento ordenar(mod:arreglo[1..N] de Mod) es
+			ambiente
+				i,j:entero(1);
+				resMod:Mod;
+			algoritmo
+				para i:=2 hasta N hacer
+					resMod:=mod[i];
+					j:=i-1;
+					mientras (j>0) y (resMod.altura < mod[j].altura) hacer
+						mod[j+1]:=mod[j];
+						j:=j-1;
+					fin;
+					mod[j+1]:=resMod;
+				fin;
+		fin;
+		procedimiento listar_modelos(mod:arreglo[1..N] de Mod) es
+			ambiente
+				i:entero;
+			algoritmo
+				para i:=1 hasta N hacer
+					esc("Nombre: "; mod[i].nombre);
+					esc("Altura: "; mod[i].altura);
+				fin;
+		fin;
+	algoritmo
+		inicializar;
+		para i:=1 hasta M hacer
+			ordenar(dis[i].mod);
+			esc("Diseñador: "; dis[i].nomDis);
+			listar_modelos(dis[i].mod);
+		fin;
+fin.

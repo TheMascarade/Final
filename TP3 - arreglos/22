@@ -1,0 +1,18 @@
+accion sumar_matriz es
+	ambiente
+		entrada: arreglo [1..5,1..5] de entero;
+		sal: arreglo [1..2,1..5] de entero;
+		i,j:entero(1);
+	algoritmo
+		para i:=1 hasta 2 hacer
+			para j:=1 hasta 5 hacer
+				sal[i,j]:=0;
+			fin;
+		fin;
+		para i:=1 hasta 5 hacer
+			para j:=1 hasta 5 hacer
+				sal[1,i]:=sal[1,i]+entrada[i,j];
+				sal[2,j]:=sal[2,j]+entrada[i,j];
+			fin;
+		fin;
+fin.

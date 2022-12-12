@@ -1,0 +1,100 @@
+accion agenda es
+	ambiente
+		Contacto=registro
+			nom:an(20);
+			tel:entero(11);
+			dir:an(20);
+		fin;
+		N=50;
+		agenda:arreglo[1..N] de Contacto;i:entero;
+		MARCA=" "; contacto:=Contacto;
+		parar:(0,1);
+		funcion agenda_llena():logico es
+			agenda_llena:=verdadero;
+			i:=1;
+			mientras (agenda[i].nombre<>MRCA) y (i<=N) hacer
+				i:=i+1;
+			fin;
+			si(i < N)
+				entonces
+					agenda_llena:=falso;
+			fin;
+		fin;
+		procedimiento modificar_contacto es
+			ambiente
+				op:1..3; i:entero;
+			algoritmo
+				esc("Ingrese nombre de contacto");
+				leer(contacto.nom);
+				i:=buscar_contacto(contacto.nombre);
+				si(i==0)
+					entonces
+						esc("Contacto no existe");
+					contrario
+						esc("Especifique campo a modificar");
+						esc("1: nombre");
+						esc("2: telefono");
+						esc("3: direccion");
+						leer(op);
+						segun (op) hacer
+							1:
+								esc("Ingrese nuevo nombre");
+								leer(agenda[i].nombre);
+							2:
+								esc("Ingrese nuevo telefono");
+								leer(agenda[i].tel);
+							3:
+								esc("Ingrese nueva direccion");
+								leer(agenda[i].tel);
+						fin;
+				fin;
+		fin;
+		funcion buscar_contacto(nombre:an(20)):entero es
+			i:=1;
+			mientras (agenda[i].nom<>nombre) y (i<=N) hacer
+				i:=i+1;
+			fin;
+			si(i<=N)
+				entonces
+					buscar_contacto:=i;
+				contrario
+					buscar_contacto:=0;
+			fin;
+		fin;
+		procedimiento eliminar_contacto es
+			ambiente
+				i:entero;
+			algoritmo
+				esc("Ingrese nombre de contacto");
+				leer(contacto.nom);
+				i:=buscar_contacto()
+				si(i<>0)
+					entonces
+						agenda[i].nom:=MARCA;
+					contrario
+						esc("Contacto no existe");
+				fin;
+		fin;
+		procedimiento añadir_contacto es
+			si(agenda_llena)
+				entonces
+					esc("La agenda esta llena, elimine un contacto");
+				contrario
+					contacto:=solicitar_contacto();
+					insertar_contacto(contacto);
+			fin;
+		fin;
+		funcion solicitar_contacto():Contacto es
+			ambiente
+				con:Contacto;
+			algoritmo
+				esc("Ingrese nombre");
+				leer(con.nom);
+				esc("Ingrese telefono");
+				leer(con.tel);
+				esc("Ingrese direccion");
+				leer(con.dir);
+				solicitar_contacto:=con;
+		fin;
+		procedimiento insertar_contacto(con:Contacto) es
+			

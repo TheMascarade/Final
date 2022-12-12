@@ -1,0 +1,18 @@
+accion hospital es
+	ambiente
+		paciente: arreglo[1..4,1..7] de entero;
+		hospital: arreglo[1..50] de paciente;
+		proms: arreglo[1..50,1..7] de entero;
+		temMin,temMax:entero;
+		diaMin,diaMax,lecMin,lecMax:entero;
+		i,j,k:entero(1);
+		procedimiento inicializar es
+			para i:=1 hasta 50 hacer
+				para j:=1 hasta 7 hacer
+					proms[i,j]:=0;
+				fin;
+			fin;
+		fin;
+	algoritmo
+		
+fin.

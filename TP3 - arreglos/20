@@ -1,0 +1,22 @@
+accion dos_matrices es
+	ambiente
+		A,B,C: arreglo [1..N,1..N] de entero;
+		N=5;
+		i,j:entero(1);
+	algoritmo
+		para i:=1 hasta N hacer
+			para j:=1 hasta N hacer
+				si(i==j)
+					entonces
+						C[i,j]:=0;
+					contrario
+						si(i<j)
+							entonces
+								C[i,j]:=A[i,j];
+							contrario
+								C[i,j]:=B[i,j];
+						fin;
+				fin;
+			fin;
+		fin;
+fin.
