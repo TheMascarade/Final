@@ -12,7 +12,36 @@ accion hospital es
 					proms[i,j]:=0;
 				fin;
 			fin;
+			lecMin,lecMax,diaMin,diaMax:=0;
+			temMin:=HV;
+			temMax:=LV;
 		fin;
 	algoritmo
-		
+		para i:=1 hasta 50 hacer
+			para j:=1 hasta 7 hacer
+				para k:=1 hasta 4 hacer
+					proms[i,j]:=proms[i,j]+hospital[i,j,k] div k;
+					si (hospital[i,j,k]<temMin)
+						entonces
+							temMin:=hospital[i,j,k];
+							lecMin:=k;
+							diaMin:=j;
+					fin;
+					si (hospital[i,j,k]>temMax)
+						entonces
+							temMax:=hospital[i,j,k];
+							lecMax:=k;
+							diaMax:=j;
+					fin;
+				fin;
+			fin;
+			esc("Temperatura minima: "; temMin);
+			esc("Lectura: "; lecMin);
+			esc("Dia: "; diaMin);
+			esc("Temperatura maxima: "; temMax);
+			esc("Lectura: "; lecMax);
+			esc("Dia: "; diaMax);
+			temMax:=LV;
+			temMin:=HV;
+		fin;
 fin.

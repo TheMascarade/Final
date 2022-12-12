@@ -1,0 +1,59 @@
+accion cajeros es
+	ambiente
+		Cajero=registro
+			nomAp:an(20);
+			caja:1..10;
+			imp:real;
+			horario:registro
+				hora:1..24;
+				min:1..60;
+				seg:1..60;
+			fin;
+		fin;
+		cajeros: archivo de Cajero ordenado por nomAp;
+		cajero: Cajero;
+		imp: arreglo [1..11,1..6] de real;
+		procedimiento inicializar es
+			ambiente
+				i,j:entero(2);
+			algoritmo
+				para i:=1 hasta 11 hacer
+					para j:=1 hasta 6 hacer
+						imp[i,j]:=0;
+					fin;
+				fin;
+		fin;
+		procedimiento acumular_importes es
+			ambiente
+				
+			algoritmo
+				segun (cajero.horario.hora) hacer
+					<10:
+						imp[cajero.caja,1]:=imp[cajero.caja,1]+cajero.imp;
+						imp[11,1]:=imp[11,1]+cajero.imp;
+					<12:
+						imp[cajero.caja,2]:=imp[cajero.caja,2]+cajero.imp;
+						imp[11,2]:=imp[11,2]+cajero.imp;
+					<16:
+						imp[cajero.caja,3]:=imp[cajero.caja,3]+cajero.imp;
+						imp[11,3]:=imp[11,3]+cajero.imp;
+					<18:
+						imp[cajero.caja,4]:=imp[cajero.caja,4]+cajero.imp;
+						imp[11,4]:=imp[11,4]+cajero.imp;
+					<=20:
+						imp[cajero.caja,5]:=imp[cajero.caja,5]+cajero.imp;
+						imp[11,5]:=imp[11,5]+cajero.imp;
+				fin;
+				imp[cajer.caja,6]:=imp[cajero.caja,6]+cajero.imp;
+		fin;
+	algoritmo
+		abrir e/(cajeros);
+		leer(cajeros,cajero);
+		inicializar;
+		mientras nfd(cajeros) hacer
+			acumular_importes;
+			leer(cajeros,cajero);
+		fin;
+		informar;
+		cerrar(cajeros);
+fin.
