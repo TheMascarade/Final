@@ -1,0 +1,52 @@
+accion sumas_par_impar(prim:puntero a Nodo) es
+	ambiente
+		Nodo=registro
+			dato:entero;
+			prox:puntero a Nodo;
+		fin;
+		p:puntero a Nodo;
+		acPar,acImpar:entero;
+		funcion es_par(valor:entero):Booleano es
+			ambiente
+				
+			algoritmo
+				si (valor mod 2==0)
+					entonces
+						es_par:=verdadero;
+					contrario
+						es_par:=falso;
+				fin;
+		fin;
+		procedimiento acumular_pares(valor:entero) es
+			ambiente
+				
+			algoritmo
+				acPar:=acPar+valor;
+		fin;
+		procedimiento acumular_impares(valor:entero) es
+			ambiente
+				
+			algoritmo
+				acImpar:=acImpar+valor;
+		fin;
+		procedimiento informar_sumas es
+			ambiente
+				
+			algoritmo
+				esc("Suma acumulativa de numeros pares: ", acPar);
+				esc("Suma acumulativa de numeros impares: ", acImpar);
+		fin;
+	algoritmo
+		acPar,acImpar:=0;
+		p:=prim;
+		mientras (p<>nil) hacer
+			si es_par(*p.dato)
+				entonces
+					acumular_pares(*p.dato);
+				contrario
+					acumular_impares(*p.dato);
+			fin;
+			p:=*p.prox;
+		fin;
+		informar_sumas;
+fin.

@@ -1,0 +1,44 @@
+accion analfabetos(prim:puntero a Nodo) es
+	ambiente
+		Nodo=registro
+			nombreProvincia:an(20);
+			nombreCapital:an(20);
+			cantidadHabitantes:entero;
+			cantidadAnalfabetos:entero;
+			prox:puntero a Nodo;
+		fin;
+		nodoEntrada,primL1,primL2,primL3:puntero a Nodo;
+		L1=1..10;
+		L2=11..25;
+		L3=26..100;
+		funcion porcentaje_analfabetos(cantidadAnalfabetos,cantidadHabitantes:entero):entero es
+			algoritmo
+				porcentaje_analfabetos:=cantidadAnalfabetos div cantidadHabitantes * 100;
+		fin;
+		procedimiento cargar_lista(primero:puntero a Nodo) es
+			ambiente
+				nodo:puntero a Nodo;
+			algoritmo
+				nuevo(nodo);
+				nodo:=p;
+				*nodo.prox:=primero;
+				primero:=nodo;
+		fin;
+	algoritmo
+		si (prim==nil)
+			entonces
+				esc("Lista vacía");
+			contrario
+				p:=prim;
+				mientras (p<>nil) hacer
+					segun (porcentaje_analfabetos(*p.cantidadAnalfabetos,*p.cantidadHabitantes)) hacer
+						L1:
+							cargar_lista(primL1);
+						L2:
+							cargar_lista(primL2);
+						L3:
+							cargar_lista(primL3);
+					fin;
+				fin;
+		fin;
+fin.

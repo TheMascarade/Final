@@ -1,0 +1,58 @@
+accion terminan_cero(prim:puntero a Nodo) es
+	ambiente
+		Nodo=registro
+			dato:entero;
+			prox:puntero a Nodo;
+		fin;
+		p,q,primQ,antP,antQ:puntero a Nodo;
+		funcion termina_en_cero(dato:entero):Booleano es
+			ambiente
+				
+			algoritmo
+				si (dato mod 10 == 0)
+					entonces
+						termina_en_cero:=verdadero;
+				fin;
+				termina_en_cero:=falso;
+		fin;
+		procedimiento eliminar_nodo(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				si (nodo==nil)
+					entonces
+						esc("Fin de lista");
+					contrario
+						si (antP==nil)
+							entonces
+								prim:=*nodo.prox;
+							contrario
+								si (*nodo.prox==nil)
+									entonces
+										*antP.prox:=nil;
+									contrario
+										*antP.prox:=*nodo.prox;
+								fin;
+						fin;
+				fin;
+		fin;
+		procedimiento insertar_nodo(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				nuevo(q);
+				q:=nodo;
+				*q.prox:=primQ;
+				primQ:=q;
+		fin;
+	algoritmo
+		primQ:=nil; p:=prim;
+		mientras (p<>nil) hacer
+			si (termina_en_cero(*p.dato))
+				entonces
+					eliminar_nodo(p);
+					insertar_nodo(p);
+			fin;
+			p:=*p.prox;
+		fin;
+fin.

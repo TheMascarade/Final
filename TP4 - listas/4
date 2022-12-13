@@ -1,0 +1,23 @@
+accion invertir_orden(prim:puntero a Nodo) es
+	ambiente
+		Nodo=registro
+			clave:entero;
+			prox:puntero a Nodo;
+		fin;
+		p,ant,prox:puntero a Nodo;
+	algoritmo
+		si (prim==nil)
+			entonces
+				esc("Lista vacía");
+			contrario
+				p:=prim;
+				ant:=nil;
+				mientras (p<>nil) hacer
+					prox:=*p.prox;
+					*p.prox:=ant;
+					ant:=p;
+					p:=prox;
+				fin;
+				prim:=ant;
+		fin;
+fin.

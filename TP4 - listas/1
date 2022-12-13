@@ -1,0 +1,109 @@
+accion procesos_listas_simple es
+	ambiente
+		Nodo=registro
+			dato:tipoDato;
+			prox:puntero a nodo;
+		fin;
+		prim,p,q,ant:puntero a Nodo;
+		k:entero;
+		opcion:1..3;
+		procedimiento seleccionar_opcion es
+			ambiente
+				
+			algoritmo
+				esc("Ingrese una opcion");
+				esc("1: Acceder");
+				esc("2: Insertar");
+				esc("3: Eliminar");
+				leer(opcion);
+				esc("Ingrese la posición");
+				leer(k);
+				segun (opcion) hacer
+					1:
+						acceder_nodo(buscar_posicion(k));
+					2:
+						insertar_nodo(buscar_posicion(k));
+					3:
+						eliminar_nodo(buscar_posicion(k));
+				fin;
+		fin;
+		funcion buscar_posicion(k:entero):Nodo es
+			ambiente
+				pos:entero;
+			algoritmo
+				p:=prim;
+				si (p==nil)
+					entonces
+						esc("Lista vacía");
+					contrario
+						pos:=1;
+						mientras (pos<>k) y (p<>nil) hacer
+							ant:=p;
+							p:=*p.prox;
+							pos++;
+						fin;
+						buscar_posicion:=p;
+				fin;
+		fin;
+		procedimiento acceder_nodo(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				si (nodo==nil)
+					entonces
+						esc("No se encontró el elemento");
+					contrario
+						esc("Valor: ", *nodo.dato);
+				fin;
+		fin;
+		procedimiento insertar_nodo(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				si (nodo==nil)
+					entonces
+						esc("Fuera de rango de la lista");
+					contrario
+						nuevo(q);
+						si (ant==nil)
+							entonces
+								*q.prox:=nodo;
+								prim:=q;
+							contrario
+								si (*nodo.prox==nil)
+									entonces
+										*nodo.prox:=q;
+										*q.prox:=nil;
+									contrario
+										*q.prox:=*nodo.prox;
+										*nodo.prox:=q;
+								fin;
+						fin;
+						esc("Ingrese el dato");
+						leer(*q.dato);
+				fin;
+		fin;
+		procedimiento eliminar_nodo(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				si (nodo==nil)
+					entonces
+						esc("Nodo fuera de rango");
+					contrario
+						si (ant==nil)
+							entonces
+								prim:=*nodo.prox;
+							contrario
+								si (*nodo.prox==nil)
+									entonces
+										*ant.prox:=nil;
+									contrario
+										*ant.prox:=*nodo.prox;
+								fin;
+						fin;
+				fin;
+		fin;
+	algoritmo
+		seleccionar_opcion;
+fin.
