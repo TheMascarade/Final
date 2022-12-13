@@ -1,0 +1,51 @@
+accion procesos_cola(prim:puntero a Nodo) es
+	ambiente
+		Nodo=registro
+			dato:entero;
+			prox:puntero a Nodo;
+		fin;
+		nodo:puntero a Nodo;
+		opcion:1..3;
+		funcion desencolar(elem:puntero a Nodo):Nodo es
+			ambiente
+				
+			algoritmo
+				si (prim==nil)
+					entonces
+						esc("Cola vacía");
+					contrario
+						desencolar:=elem;
+						prim:=*prim.prox;
+						disponer(elem);
+				fin;
+		fin;
+		procedimiento encolar(elem:puntero a Nodo) es
+			ambiente
+				ant:puntero a Nodo;
+			algoritmo
+				nodo:=prim;
+				mientras (nodo<>nil) hacer
+					ant:=nodo;
+					nodo:=*nodo.prox;
+				fin;
+				*ant.prox:=elem;
+				*elem.prox:=nodo;
+		fin;
+	algoritmo
+		repetir
+			esc("Ingrese una opcion");
+			esc("1: Encolar");
+			esc("2: Desencolar");
+			esc("3: Salir");
+			leer(opcion);
+			segun opcion hacer
+				1:
+					nuevo(nodo);
+					esc("Ingrese el dato");
+					leer(*nodo.clave);
+					encolar(nodo);
+				2:
+					desencolar(prim);
+			fin;
+		hasta (opcion==3);
+fin.

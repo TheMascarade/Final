@@ -1,0 +1,46 @@
+accion orden_inverso es
+	ambiente
+		Nodo=registro
+			dato:entero;
+			prox:puntero a Nodo;
+		fin;
+		prim,nodo:puntero a Nodo;
+		opcion:1..2;
+		funcion nuevo_nodo():Nodo es
+			ambiente
+				nuevo:puntero a Nodo;
+			algoritmo
+				nuevo(nuevo);
+				esc("Ingrese un numero");
+				leer(*nuevo.dato);
+				nuevo_nodo:=nuevo;
+		fin;
+		procedimiento apilar(nodo:Nodo) es
+			ambiente
+				
+			algoritmo
+				*nodo.prox:=prim;
+				prim:=nodo;
+		fin;
+		procedimiento listar_numeros es
+			ambiente
+				
+			algoritmo
+				nodo:=prim;
+				mientras (nodo<>nil) hacer
+					esc("Dato: ", *nodo.dato);
+					nodo:=*nodo.prox;
+				fin;
+		fin;
+	algoritmo
+		repetir
+			esc("Ingrese una opcion");
+			esc("1: Ingresar numero");
+			esc("2: Salir");
+			si (opcion==1)
+				entonces
+					apilar(nuevo_nodo());
+			fin;
+		hasta (opcion==2);
+		listar_numeros;
+fin.
