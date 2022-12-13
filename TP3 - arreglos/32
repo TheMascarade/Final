@@ -1,0 +1,94 @@
+accion estacionar es
+	ambiente
+		Estac=registro
+			fecha:registro
+				dia:1..31;
+				mes:1..12;
+				año:entero(4);
+			fin;
+			patente:an(7);
+			horaDesde:entero(2);
+			horaHasta:entero(2);
+			posta:1..100;
+		fin;
+		estacs:archivo de Estac;
+		estac:Estac;
+		control: arreglo [1..31,1..101] de entero;
+		importe: arreglo [1..100] de real;
+		procedimiento inicializar es
+			ambiente
+				i,j:entero;
+			algoritmo
+				para i:=1 hasta 32 hacer
+					para j:=1 hasta 100 hacer
+						control[i,j]:=0;
+					fin;
+				fin;
+				para i:=1 hasta 100 hacer
+					importe[i]:=0;
+				fin;
+		fin;
+		funcion horas_estacionado():entero es
+			ambiente
+				
+			algoritmo
+				horas_estacionado:=estac.horaDesde-estac.horaHasta+1;
+		fin;
+		funcion costo():real es
+			ambiente
+				
+			algoritmo
+				segun (estac.horaHasta) hacer
+					<=6:
+						costo:=9;
+					<=13:
+						costo:=14;
+					<=19:
+						costo:=12;
+					<=23:
+						costo:=6;
+				fin;
+		fin;
+		procedimiento acumular_importe es
+			ambiente
+				
+			algoritmo
+				importe[estac.posta]:=importe[estac.posta]+horas_estacionado()*costo();
+		fin;
+		procedimiento contar_auto es
+			ambiente
+				
+			algoritmo
+				control[estac.fecha.dia,estac.posta]:=control[estac.fecha.dia,estac.posta]+1;
+				control[estac.fecha.dia,101]:=control[estac.fecha.dia,101]+1;
+		fin;
+		funcion posta_mayor_importe():entero es
+			ambiente
+				i:entero; imp:real;
+			algoritmo
+				imp:=LV;
+				para i:=1 hasta 100 hacer
+					si (importe[i]>imp)
+						entonces
+							imp:=importe[i];
+							posta_mayor_importe:=i;
+					fin;
+				fin;
+		fin;
+		funcion dia_mayor_estacionamientos():entero es
+			ambiente
+				i:entero;canEst:entero;
+			algoritmo
+				canEst:=LV;
+				para i:=1 hasta 31 hacer
+					si (control[i,101]>canEst)
+						entonces
+							canEst:=control[i,101];
+							dia_mayor_estacionamientos:=i;
+					fin;
+				fin;
+		fin;
+		
+	algoritmo
+		
+fin.

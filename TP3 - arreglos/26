@@ -1,0 +1,79 @@
+accion factura_electricidad es
+	ambiente
+		Factura=registro
+			nroFac:entero;
+			nroUs:entero;
+			zona:("A","B","C","D");
+			fecha:registro
+				dia:1..31;
+				mes:1..12;
+				año:entero(4);
+			fin;
+			consumo:real;
+		fin;
+		facturas:archivo de Factura;
+		factura:Factura;
+		A=0.05;
+		B=0.07;
+		C=0.09;
+		D=0.13;
+		imp:arreglo[1..13,1..5] de real;
+		procedimiento inicializar es
+			ambiente
+				i,j:entero;
+			algoritmo
+				para i:=1 hasta 13 hacer
+					para j:=1 hasta 5 hacer
+						imp[i,j]:=0;
+					fin;
+				fin;
+		fin;
+		procedimiento acumular_consumo es
+			ambiente
+				
+			algoritmo
+				imp[factura.fecha.mes,indice_zona()]:=imp[factura.fecha.mes,indice_zona()]+factura.consumo*det_imp();
+				imp[factura.fecha.mes,5]:=imp[factura.fecha.mes,5]+factura.consumo*det_imp();
+				imp[13,indice_zona()]:=imp[13,indice_zona()]+factura.consumo*det_imp;
+				imp[13,5]:=imp[13,5]+factura.consumo*det_imp;
+		fin;
+		funcion indice_zona():entero es
+			ambiente
+				
+			algoritmo
+				segun (factura.zona) hacer
+					"A":
+						indice_zona:=1;
+					"B":
+						indice_zona:=2;
+					"C":
+						indice_zona:=3;
+					"D":
+						indice_zona:=4;
+				fin;
+		fin;
+		funcion det_imp():real es
+			ambiente
+				
+			algoritmo
+				segun (factura.zona) hacer
+					"A":
+						det_imp:=factura.consumo*A;
+					"B":
+						det_imp:=factura.consumo*B;
+					"C":
+						det_imp:=factura.consumo*C;
+					"D":
+						det_imp:=factura.consumo*D;
+				fin;
+		fin;
+	algoritmo
+		abrir e/(facturas);
+		leer(facturas,factura);
+		inicializar;
+		mientras nfd(facturas) hacer
+			acumular_consumo;
+		fin;
+		informar_consumo;
+		cerrar(facturas);
+fin.
