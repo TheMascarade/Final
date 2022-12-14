@@ -1,0 +1,7 @@
+procedimiento palim(palabra:arreglo[1..N] de an, N:entero) es
+	esc(palabra[N]);
+	si (N>1)
+		entonces
+			palim(palabra,N-1);
+	fin;
+fin;

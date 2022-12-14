@@ -1,0 +1,9 @@
+procedimiento imprimir_inverso(numero:entero) es
+	si (numero<10)
+		entonces
+			esc(numero);
+		contrario
+			esc(numero mod 10);
+			imprimir_inverso(numero div 10);
+	fin;
+fin;
