@@ -1,0 +1,10 @@
+funcion es_par(numero:entero):Booleano es
+	segun (numero) hacer
+		0:
+			es_par:=verdadero;
+		1:
+			es_par:=falso;
+		otros:
+			es_par:=es_par(numero-2);
+	fin;
+fin;

@@ -1,0 +1,8 @@
+funcion fibo(n:entero):entero es
+	si (n<=2)
+		entonces
+			fibo:=1;
+		contrario
+			fibo:=fibo(n-1)+fibo(n-2);
+	fin;
+fin;

@@ -1,0 +1,8 @@
+funcion division_entera(dividento,divisor:entero):entero es
+	si (dividendo < divisor)
+		entonces
+			division_entera:=0;
+		contrario
+			division_entera:=1+division_entera(dividendo-divisor,divisor);
+	fin;
+fin;

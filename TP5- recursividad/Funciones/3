@@ -1,0 +1,8 @@
+funcion potencia(base,exponente:entero):entero es
+	si (exponente==0)
+		entonces
+			potencia:=1;
+		contrario
+			potencia:=base * potencia(base,exponente-1);
+	fin;
+fin;

@@ -1,0 +1,8 @@
+funcion mcd(m,n:entero):entero es
+	si (n==0)
+		entonces
+			mcd:=m;
+		contrario
+			mcd:=mcd(n,m mod n);
+	fin;
+fin;

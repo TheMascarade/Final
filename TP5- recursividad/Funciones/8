@@ -1,0 +1,8 @@
+funcion suma(a:arreglo[1..10] de entero,i:entero):entero es
+	si (i==10)
+		entonces
+			suma:=a[i];
+		contrario
+			suma:=a[i]+suma(a,i+1);
+	fin;
+fin;

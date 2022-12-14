@@ -1,0 +1,8 @@
+funcion factorial(n:entero):entero es
+	si (n==0)
+		entonces
+			factorial:=1;
+		contrario
+			factorial:=n*factorial(n-1);
+	fin;
+fin;
