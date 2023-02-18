@@ -1,0 +1,43 @@
+// Punto 1
+
+funcion binario_a_decimal(octeto: arreglo[1..4, 1..8] de n(1), fila: n(1)):n(3) es
+	ambiente
+		i:1..8;
+		n: n(3);
+	algoritmo
+		binario_a_decimal:=0;
+		n:=128;
+		para i:=8 hasta 1 hacer
+			binario_a_decimal:=binario_a_decimal + n * octeto[fila,i];
+			n:=n/2;
+		fin;
+fin;
+procedimiento clasificar_ip(ip: arreglo [1..4,1..8] de n(1), 1) es
+	ambiente
+		acOcteto: n(3);
+		Octetos=registro
+			octeto1: n(3);
+			octeto2: n(3);
+			octeto3: n(3);
+			octeto4: n(3);
+		fin;
+		octetos: archivo de Octetos;
+		octeto: Octetos;
+	algoritmo
+		acOcteto:=binario_a_decimal(ip, 1);
+		abrir /s(octetos);
+		segun (acOcteto)
+			0..127: esc("Clase A");
+			128..191: esc("Clase B");
+			192..223: esc("Clase C");
+			otros:
+				octeto.octeto1:=acOcteto;
+				octeto.octeto2:=binario_a_decimal(ip, 2);
+				octeto.octeto3:=binario_a_decimal(ip, 3);
+				octeto.octeto3:=binario_a_decimal(ip, 4);
+				grabar(octetos, octeto),
+		fin;
+fin;
+
+// Punto 2
+

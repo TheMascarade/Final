@@ -1,0 +1,80 @@
+accion validar_palabra(secE: secuencia de caracteres) es
+	ambiente
+		secS, secR: secuencia de caracteres;
+		vE, vS, vR: an(1);
+		conError, conPal: n(8);
+		Vocales=("a", "e", "i", "o", "u");
+		Numeros=("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
+		Impares=("1","3","5","7","9"); Pares=("2","4","6","8");
+		funcion validar_palabra(v:an(1)):logico es
+			si (v=Vocales)
+				entonces
+					validar_palabra:=validar_vocal();
+				contrario
+					si (v=Numumeros)
+						entonces
+							validar_palabra:=falso;
+						contrario
+							validar_palabra:=validar_consonante();
+					fin;
+			fin;
+		fin;
+		funcion validar_vocal():logico es
+			validar_vocal:=verdadero;
+			mientras (vE <>" ") hacer
+				vR:=vE;
+				esc(secR, vR);
+				si (vE = Impares)
+					entonces
+						validar_vocal:=falso;
+				fin;
+				avz(secE, vE);
+			fin;
+			si (vR = Vocal) o (vR = Numeros)
+				entonces
+					validar_vocal:=falso;
+			fin;
+		fin;
+		funcion validar_consonante():logico es
+			validar_consonante:=falso;
+			mientras (vE <> " ") hacer
+				si(vE = Pares)
+					entonces
+						validar_consonante:=verdadero;
+				fs;
+				vR:=vE;
+				esc(secR, vR);
+				avz(secE, vE);
+			fin;
+		fin;
+		procedimiento grabar_salida() es
+			arr(secR);
+			avz(secR, vR);
+			mientras nfd(secR) hacer
+				vS:=vR;
+				esc(secS, vS);
+				avz(secR,vR);
+			fin;
+		fin;
+	algoritmo
+		crear(secS, secR);
+		avz(secE, vE);
+		conError,conPal:=0;
+		mientras nfd(secE) hacer
+			mientras (vE = " ") hacer
+				avz(secE, vE);
+			fin;
+			si (validar_palabra(vE))
+				entonces
+					grabar_salida;
+				contrario
+					conError:=conError+1;
+			fin;
+			conPal:=conPal+1;
+			cerrar(secR);
+			crear(secR);
+		fin;
+		cerrar(secS,secR);
+		esc("Cantidad de palabras: "; conPal);
+		esc("Porcentaje de errores: "; conError div conPal * 100);
+fin.
